@@ -7,31 +7,34 @@ Lecture du fichier annual-number-of-deaths-by-cause.csv
 ```{r}
 library(tidyverse)
 
-annualdeath <- read.csv("annual-number-of-deaths-by-cause.csv", header = TRUE)
+annualdeath <- read.csv("../Dataset/annual-number-of-deaths-by-cause.csv", header = TRUE)
+governmentEducationExpenditure  <- read.csv("../Dataset/total-government-expenditure-on-education-gdp.csv", header = TRUE)
 
 ```
 Filter seuleument les données de 1990 à 2010
 
 ```{r}
 annualdeath <- annualdeath %>% filter(Year<2011);
-
+governmentEducationExpenditure <- governmentEducationExpenditure  %>% filter(Year<2011) %>%filter(Year>1989);
 ```
 enlever les régions
 ```{r}
 library(dplyr)
 annualdeath <- annualdeath %>% filter(Code != "");
-
+governmentEducationExpenditure <- governmentEducationExpenditure  %>% filter(Code != "");
 ```
 changer le nom des colonnes
 ```{r}
 colnames(annualdeath) <- c("Country","Code","Year","Meningitis","Alzheimers disease","Parkinsons disease","Nutritional deficiencies","Malaria",
 "Drowning","Interpersonal violence", "Maternal disorders", "HIV AIDS" , "Drug use disorders", "Tuberculosis", "Cardiovascular diseases", "Lower respiratory infections", "Neonatal disorders","Alcohol use disorders", "Self harm", "Exposure to forces of nature", "Diarrheal diseases", "Environmental heat and cold exposure", "Neoplasms", "Conflict and terrorism", "Diabetes mellitus", "Chronic kidney disease", "Poisonings", "Protein energy malnutrition", "Road injuries", "Chronic respiratory diseases", "Cirrhosis and other chronic liver diseases", "Digestive diseases","Fire heat and hot substances","Acute hepatitis", "Measles"
 )
+colnames(governmentEducationExpenditure) <- c("Country","Code","Year","Percent of GPD spent in Education")
 ```
 supprimer les colonnes inutiles
 drug use ?, drowing ?, hiv aids ?
 ```{r}
 
 annualdeath <- select(annualdeath, -`Interpersonal violence`, -`Fire heat and hot substances`, -`Road injuries`, -`Conflict and terrorism`, -`Exposure to forces of nature`, -`Self harm` )
+governmentEducationExpenditure <- select(governmentEducationExpenditure, -Code)
 
 ```
