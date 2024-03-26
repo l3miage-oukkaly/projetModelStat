@@ -1,0 +1,37 @@
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Lecture du fichier annual-number-of-deaths-by-cause.csv
+```{r}
+library(tidyverse)
+
+annualdeath <- read.csv("annual-number-of-deaths-by-cause.csv", header = TRUE)
+
+```
+Filter seuleument les données de 1990 à 2010
+
+```{r}
+annualdeath <- annualdeath %>% filter(Year<2011);
+
+```
+enlever les régions
+```{r}
+library(dplyr)
+annualdeath <- annualdeath %>% filter(Code != "");
+
+```
+changer le nom des colonnes
+```{r}
+colnames(annualdeath) <- c("Country","Code","Year","Meningitis","Alzheimers disease","Parkinsons disease","Nutritional deficiencies","Malaria",
+"Drowning","Interpersonal violence", "Maternal disorders", "HIV AIDS" , "Drug use disorders", "Tuberculosis", "Cardiovascular diseases", "Lower respiratory infections", "Neonatal disorders","Alcohol use disorders", "Self harm", "Exposure to forces of nature", "Diarrheal diseases", "Environmental heat and cold exposure", "Neoplasms", "Conflict and terrorism", "Diabetes mellitus", "Chronic kidney disease", "Poisonings", "Protein energy malnutrition", "Road injuries", "Chronic respiratory diseases", "Cirrhosis and other chronic liver diseases", "Digestive diseases","Fire heat and hot substances","Acute hepatitis", "Measles"
+)
+```
+supprimer les colonnes inutiles
+drug use ?, drowing ?, hiv aids ?
+```{r}
+
+annualdeath <- select(annualdeath, -`Interpersonal violence`, -`Fire heat and hot substances`, -`Road injuries`, -`Conflict and terrorism`, -`Exposure to forces of nature`, -`Self harm` )
+
+```
