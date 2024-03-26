@@ -22,6 +22,7 @@ enlever les régions
 library(dplyr)
 annualdeath <- annualdeath %>% filter(Code != "");
 governmentEducationExpenditure <- governmentEducationExpenditure  %>% filter(Code != "");
+
 ```
 changer le nom des colonnes
 ```{r}
@@ -38,4 +39,7 @@ annualdeath <- select(annualdeath,-Code, -`Interpersonal violence`, -`Fire heat 
 governmentEducationExpenditure <- select(governmentEducationExpenditure, -Code)
 
 ```
-
+enlever les pays ayant moins de 20% 
+```{r}
+governmentEducationExpenditure <- governmentEducationExpenditure %>% group_by(Country) %>% filter(n() > 5)
+```
