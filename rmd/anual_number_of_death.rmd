@@ -34,7 +34,8 @@ supprimer les colonnes inutiles
 drug use ?, drowing ?, hiv aids ?
 ```{r}
 
-annualdeath <- select(annualdeath, -`Interpersonal violence`, -`Fire heat and hot substances`, -`Road injuries`, -`Conflict and terrorism`, -`Exposure to forces of nature`, -`Self harm` )
+annualdeath <- select(annualdeath,-Code, -`Interpersonal violence`, -`Fire heat and hot substances`, -`Road injuries`, -`Conflict and terrorism`, -`Exposure to forces of nature`, -`Self harm` )
 governmentEducationExpenditure <- select(governmentEducationExpenditure, -Code)
 
 ```
+
