@@ -1,0 +1,35 @@
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Lecture du fichier annual-number-of-deaths-by-cause.csv
+```{r}
+library(tidyverse)
+
+WaterAccess <- read.csv("../Dataset/water-withdrawals-per-capita.csv")
+
+```
+Filter seuleument les données de 1990 à 2010
+
+```{r}
+WaterAccess <- WaterAccess %>% filter(Year<2011) %>% filter(Year>1989);
+
+```
+enlever les régions
+```{r}
+library(dplyr)
+WaterAccess <- WaterAccess %>% filter(Code != "");
+WaterAccess <- WaterAccess %>% group_by(Entity) %>% filter(n() > 1)
+
+```
+changer le nom des colonnes
+```{r}
+```
+supprimer les colonnes inutiles
+drug use ?, drowing ?, hiv aids ?
+```{r}
+
+WaterAccess <- select(WaterAccess, -Code)
+
+```
