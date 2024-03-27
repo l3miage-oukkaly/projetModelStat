@@ -39,7 +39,53 @@ annualdeath <- select(annualdeath,-Code, -`Interpersonal violence`, -`Fire heat 
 governmentEducationExpenditure <- select(governmentEducationExpenditure, -Code)
 
 ```
+connaitre les pays que l'on observera pas
+```{r}
+pays_non_observés_annual_death <- annualdeath %>% group_by(Country) %>% filter(n() < 5)
+pays_non_observés_annual_death <- pays_non_observés_annual_death %>% group_by(Country) %>% count()
+pays_non_government_exp <- governmentEducationExpenditure %>% group_by(Country) %>% filter(n() < 5)
+pays_non_government_exp <- pays_non_government_exp %>% group_by(Country) %>% count()
+print(pays_non_government_exp)
+print(pays_non_observés_annual_death)
+```
+On a 30 pays non observés pour la table government expenditure et 0 pour annual death
+
+
 enlever les pays ayant moins de 20% 
 ```{r}
 governmentEducationExpenditure <- governmentEducationExpenditure %>% group_by(Country) %>% filter(n() > 5)
+annualdeath <- annualdeath %>% group_by(Country) %>% filter(n() > 5)
+```
+
+nombre d'observations par pays en 20 ans
+```{r}
+governmentEducationExpenditure %>% group_by(Country)%>%count()
+```
+
+nombre de pays observés
+```{r}
+governmentEducationExpenditure %>% group_by(Country)%>%summarise() %>% nrow()
+```
+
+nuage de points 
+```{r}
+# Supposons que votre ensemble de données s'appelle `depenses_gouvernementales`
+
+# Sélectionner les pays pour lesquels vous souhaitez tracer le nuage de points
+
+# Tracer le nuage de points
+plot(`Percent of GPD spent in Education` ~ Year, data = governmentEducationExpenditure,
+     main = "Dépenses gouvernementales en éducation par pays",   # Titre du graphique
+     xlab = "Année",                                           # Étiquette de l'axe X
+     ylab = "Pourcentage du PIB dépensé en éducation",         # Étiquette de l'axe Y
+     col = as.numeric(factor(Country)), # Couleur différente pour chaque pays
+     pch = 16,                                                 # Type de marqueur (cercle plein)
+     xlim = c(min(Year), max(Year)), # Limites de l'axe X
+     ylim = c(0, max(`Percent of GPD spent in Education`)) # Limites de l'axe Y
+)
+legend("topright", legend = levels(factor(governmentEducationExpenditure$Country)), 
+       col = 1:length(levels(factor(governmentEducationExpenditure$Country))), pch = 16, bty = "n")
+
+
+
 ```
