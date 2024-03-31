@@ -91,14 +91,11 @@ governmentEducationExpenditure %>% group_by(Country)%>%summarise() %>% nrow()
 annualdeath  %>% group_by(Country)%>%summarise() %>% nrow()
 enrolment_ratio_teritiary_education  %>% group_by(Country)%>%summarise() %>% nrow()
 ```
-Nous allons créer des graphes pour chaque tables par régions car il y a trop de pays donc les graphes deviendront illisibles.
-Les régions seront l'Europe, l'Asie, l'Amérique du Sud, l'Amérique du Nord, l'Océanie et l'Afrique.
-L'amérique du nord contiendra aussi les pays de l'Amérique Centrale ainsi que les pays des Antilles sous le nom n_and_c_america.
-L'Asie aura aussi les pays du Moyen Orient
-Premièrement nous regroupons les pays par continent.
-En Europe, nous avons conservé la Russie et la Turquie, on les a retirés de l'Asie.
-Du temps fu passé afin de bien réécrire les noms des pays dans les bonnes régions afin qu'ils soient comptablisés
-La table annual_death séparée en régions
+Nous allons générer des graphiques pour chaque tableau par région, car l'inclusion de tous les pays rendrait les graphiques difficiles à lire. Les régions seront l'Europe, l'Asie, l'Amérique du Sud, l'Amérique du Nord, l'Océanie et l'Afrique. L'Amérique du Nord englobera également les pays d'Amérique centrale et des Antilles, et sera désignée sous le nom de 'n_and_c_america'. Les pays du Moyen-Orient seront inclus dans la catégorie Asie.
+
+Dans un premier temps, nous regrouperons les pays par continent. En ce qui concerne l'Europe, nous avons choisi d'inclure la Russie et la Turquie, et de les retirer de la catégorie Asie.
+
+Nous avons consacré du temps à vérifier et à corriger les noms des pays dans les bonnes régions, afin qu'ils soient correctement comptabilisés. 
 ```{r}
 europe_annual_death <- filter(annualdeath, Country %in% c("Albania", "Andorra", "Austria", "Belarus", "Belgium", "Bosnia and Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czechia" , "Denmark", "Estonia", "Finland", "France", "Germany", "Greece","Greenland", "Hungary", "Iceland", "Ireland", "Italy", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "North Macedonia", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City"))
 
@@ -137,7 +134,7 @@ africa_enrolment_ratio <- filter(enrolment_ratio_teritiary_education, Country %i
 ```
 
 la table governement_expenditure par région
-
+le cas de la Côte d'Ivoire est le même que pour celui de la table précédente
 ```{r}
 europe_government_expenditure <- filter(governmentEducationExpenditure, Country %in% c("Albania", "Andorra", "Austria", "Belarus", "Belgium", "Bosnia and Herzegovina", "Bulgaria", "Croatia", "Cyprus","Czechia", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "North Macedonia", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City"))
 
