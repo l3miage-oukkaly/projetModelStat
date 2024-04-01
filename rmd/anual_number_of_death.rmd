@@ -14,6 +14,7 @@ library(scales)
 annualdeath <- read.csv("../Dataset/annual-number-of-deaths-by-cause.csv", header = TRUE)
 governmentEducationExpenditure  <- read.csv("../Dataset/total-government-expenditure-on-education-gdp.csv", header = TRUE)
 enrolment_ratio_teritiary_education <- read.csv("../Dataset/enrolment-ratio-teritiary-education.csv", header = TRUE)
+waterAccess <- read.csv("../Dataset/water-withdrawals-per-capita.csv")
 ```
 
 enlever les régions
@@ -21,6 +22,7 @@ enlever les régions
 
 annualdeath <- annualdeath %>% filter(Code != "");
 governmentEducationExpenditure <- governmentEducationExpenditure  %>% filter(Code != "");
+waterAccess <- waterAccess %>% filter(Code != "");
 
 ```
 changer le nom des colonnes
@@ -28,9 +30,11 @@ changer le nom des colonnes
 colnames(annualdeath) <- c("Country","Code","Year","Meningitis","Alzheimers disease","Parkinsons disease","Nutritional deficiencies","Malaria",
 "Drowning","Interpersonal violence", "Maternal disorders", "HIV AIDS" , "Drug use disorders", "Tuberculosis", "Cardiovascular diseases", "Lower respiratory infections", "Neonatal disorders","Alcohol use disorders", "Self harm", "Exposure to forces of nature", "Diarrheal diseases", "Environmental heat and cold exposure", "Neoplasms", "Conflict and terrorism", "Diabetes mellitus", "Chronic kidney disease", "Poisonings", "Protein energy malnutrition", "Road injuries", "Chronic respiratory diseases", "Cirrhosis and other chronic liver diseases", "Digestive diseases","Fire heat and hot substances","Acute hepatitis", "Measles"
 )
-colnames(governmentEducationExpenditure) <- c("Country","Code","Year","Percent of GPD spent in Education")
+colnames(governmentEducationExpenditure) <- c("Country","Code","Year", "GPD spent in Education (%)")
 
 colnames(enrolment_ratio_teritiary_education) <- c("Country","Year","Gender","Age", "Units", "Enrolment ration (%)")
+
+colnames(waterAccess) <- c("Country","Code", "Year", "Water withdrawal per capita ()")
 ```
 supprimer les colonnes inutiles
 drug use ?, drowing ?, hiv aids ?
@@ -42,6 +46,7 @@ governmentEducationExpenditure <- select(governmentEducationExpenditure, -Code)
 
 enrolment_ratio_teritiary_education <- select(enrolment_ratio_teritiary_education, -Units, -Age,)
 
+waterAccess <- select(waterAccess, -Code)
 ```
 
 connaitre les pays que l'on observera pas
@@ -56,9 +61,13 @@ pays_non_observés_government_exp <- pays_non_observés_government_exp %>% group
 pays_non_observés_enrolment_ratio_teritiary_education <- enrolment_ratio_teritiary_education %>% group_by(Country) %>% filter(n() < 5)
 pays_non_observés_enrolment_ratio_teritiary_education <- pays_non_observés_enrolment_ratio_teritiary_education  %>% group_by(Country) %>% count()
 
+pays_non_observés_water_access <- waterAccess  %>% group_by(Country) %>% filter(n() < 1)
+pays_non_observés_water_access <- pays_non_observés_water_access  %>% group_by(Country) %>% count()
+
 print(pays_non_observés_government_exp)
 print(pays_non_observés_annual_death)
 print(pays_non_observés_enrolment_ratio_teritiary_education)
+print(pays_non_observés_water_access)
 ```
 On a 30 pays non observés pour la table government expenditure, 0 pour annual death et 2 pour enrolment ratio
 
@@ -70,6 +79,8 @@ annualdeath <- annualdeath %>% filter(Year<2011);
 governmentEducationExpenditure <- governmentEducationExpenditure  %>% filter(Year<2011) %>%filter(Year>1989);
 
 enrolment_ratio_teritiary_education <- enrolment_ratio_teritiary_education  %>% filter(Year<2011) %>%filter(Year>1989)  %>%filter(Gender == "All genders") ;
+
+waterAccess <- waterAccess %>% filter(Year<2011) %>%filter(Year>1989)
 ```
 
 enlever les pays ayant moins de 20% et la colonne "World"
@@ -79,7 +90,10 @@ governmentEducationExpenditure <- governmentEducationExpenditure %>% group_by(Co
 annualdeath <- annualdeath %>% group_by(Country) %>% filter(n() > 5) %>% filter(Country != "World")
 
 enrolment_ratio_teritiary_education <- enrolment_ratio_teritiary_education %>% group_by(Country) %>% filter(n() > 5) %>% filter(!grepl("^MDG_", Country))
+
+waterAccess <- waterAccess %>% group_by(Country) %>% filter(n() > 1)
 ```
+
 nombre d'observations par pays en 20 ans
 ```{r}
 governmentEducationExpenditure %>% group_by(Country)%>%count()
@@ -87,6 +101,8 @@ governmentEducationExpenditure %>% group_by(Country)%>%count()
 annualdeath %>% group_by(Country)%>%count()
 
 enrolment_ratio_teritiary_education %>% group_by(Country)%>%count()
+
+waterAccess %>% group_by(Country)%>%count()
 ```
 
 nombre de pays observés par table
@@ -94,6 +110,7 @@ nombre de pays observés par table
 governmentEducationExpenditure %>% group_by(Country)%>%summarise() %>% nrow()
 annualdeath  %>% group_by(Country)%>%summarise() %>% nrow()
 enrolment_ratio_teritiary_education  %>% group_by(Country)%>%summarise() %>% nrow()
+waterAccess  %>% group_by(Country)%>%summarise() %>% nrow()
 ```
 Nous allons générer des graphiques pour chaque tableau par région, car l'inclusion de tous les pays rendrait les graphiques difficiles à lire. Les régions seront l'Europe, l'Asie, l'Amérique du Sud, l'Amérique du Nord, l'Océanie et l'Afrique. L'Amérique du Nord englobera également les pays d'Amérique centrale et des Antilles, et sera désignée sous le nom de 'n_and_c_america'. Les pays du Moyen-Orient seront inclus dans la catégorie Asie.
 
@@ -156,18 +173,36 @@ africa_governemnt_expenditure <- filter(governmentEducationExpenditure, Country 
 oceania_government_expenditure <- filter(governmentEducationExpenditure, Country %in% c("Australia", "Fiji", "Kiribati", "Marshall Islands", "Micronesia (country)", "Nauru", "New Zealand", "Palau", "Papua New Guinea", "Samoa", "Solomon Islands", "Tonga", "Tuvalu", "Vanuatu", "American Samoa", "Cook Islands", "Niue", "Tokelau"))
 ```
 
-avoir la liste des pays manquants
+table waterAcess par régions
+```{r}
+europe_water_access <- filter(waterAccess, Country %in% c("Albania", "Andorra", "Austria", "Belarus", "Belgium", "Bosnia and Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czechia" , "Denmark", "Estonia", "Finland", "France", "Germany", "Greece","Greenland", "Hungary", "Iceland", "Ireland", "Italy", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "North Macedonia", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City"))
+
+asia_water_access <- filter(waterAccess, Country %in% c("Afghanistan", "Armenia", "Azerbaijan", "Bahrain", "Bangladesh", "Bhutan", "Brunei", "Cambodia", "China", "Cyprus", "Georgia", "India", "Indonesia", "Iran", "Iraq", "Israel", "Japan", "Jordan", "Kazakhstan", "Kuwait", "Kyrgyzstan", "Laos", "Lebanon", "Malaysia", "Maldives", "Mongolia", "Myanmar", "Nepal", "North Korea", "Oman", "Pakistan", "Palestine", "Philippines", "Qatar", "Saudi Arabia", "Singapore", "South Korea", "Sri Lanka", "Syria", "Tajikistan", "Thailand", "Timor-Leste", "Turkmenistan", "United Arab Emirates", "Uzbekistan", "Vietnam", "Yemen","Hong Kong", "Macao" ))
+
+south_america_water_access <- filter(waterAccess, Country %in% c("Argentina", "Bolivia", "Brazil", "Chile", "Colombia", "Ecuador", "Guyana", "Paraguay", "Peru", "Suriname", "Uruguay", "Venezuela"))
+
+n_and_c_america_water_access <- filter(waterAccess, Country %in% c("Antigua and Barbuda","Aruba" , "Bahamas", "Barbados","Bermuda", "Belize","British Virgin Islands", "Canada", "Costa Rica", "Cuba", "Dominica", "Dominican Republic", "El Salvador", "Grenada", "Guatemala", "Haiti", "Honduras", "Jamaica", "Mexico", "Nicaragua", "Panama", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Trinidad and Tobago", "United States", "Puerto Rico" ))
+
+waterAccess <- waterAccess %>%
+  mutate(Country = ifelse(Country ==  "Cote d'Ivoire","Ivory Coast", Country))
+
+africa_water_access <- filter(waterAccess, Country %in% c("Algeria", "Angola", "Benin", "Botswana", "Burkina Faso", "Burundi", "Cape Verde", "Cameroon", "Central African Republic", "Chad", "Comoros", "Democratic Republic of Congo", "Congo", "Djibouti", "Egypt", "Equatorial Guinea", "Eritrea", "Eswatini", "Ethiopia", "Gabon", "Gambia", "Ghana", "Guinea", "Guinea-Bissau", "Ivory Coast", "Kenya", "Lesotho", "Liberia", "Libya", "Madagascar", "Malawi", "Mali", "Mauritania", "Mauritius", "Morocco", "Mozambique", "Namibia", "Niger", "Nigeria", "Rwanda", "Sao Tome and Principe", "Senegal", "Seychelles", "Sierra Leone", "Somalia", "South Africa", "South Sudan", "Sudan", "Tanzania", "Togo", "Tunisia", "Uganda", "Zambia", "Zimbabwe"))
+
+oceania_water_access <- filter(waterAccess, Country %in% c("Australia", "Fiji", "Kiribati", "Marshall Islands", "Micronesia (country)", "Nauru", "New Zealand", "Palau", "Papua New Guinea", "Samoa", "Solomon Islands", "Tonga", "Tuvalu", "Vanuatu", "American Samoa", "Cook Islands", "Niue", "Tokelau"))
+```
+
+vérification de la totalité des pays pris en compte avec l'aide de la création d'une liste des pays manquants
 ```{r}
 # Liste complète des pays dans votre ensemble de données d'origine
-pays_complets <- unique(governmentEducationExpenditure$Country)
+pays_complets <- unique(waterAccess$Country)
 
 # Liste des pays sélectionnés dans chaque ensemble de données
-pays_europe <- unique(europe_government_expenditure$Country)
-pays_asie <- unique(asia_government_expenditure$Country)
-pays_amerique_sud <- unique(south_america_governemnt_expenditure$Country)
-pays_amerique_nord_central <- unique(n_and_c_america_governemnt_expenditure$Country)
-pays_afrique <- unique(africa_governemnt_expenditure$Country)
-pays_oceanie <- unique(oceania_government_expenditure$Country)
+pays_europe <- unique(europe_water_access$Country)
+pays_asie <- unique(asia_water_access$Country)
+pays_amerique_sud <- unique(south_america_water_access$Country)
+pays_amerique_nord_central <- unique(n_and_c_america_water_access$Country)
+pays_afrique <- unique(africa_water_access$Country)
+pays_oceanie <- unique(oceania_water_access$Country)
 
 # Comparaison pour voir s'il y a des pays manquants dans les sélections
 pays_manquants <- setdiff(pays_complets, pays_europe)
@@ -181,7 +216,7 @@ print(pays_manquants)
 
 
 ```
-création de nuages de points 
+création de nuages de points (Europe_government_expenditure)
 ```{r}
 library(RColorBrewer)
 
@@ -193,10 +228,10 @@ additional_colors <- c("#F7FCF0", "#E0F3DB", "#CEEBC5", "#A8DDB5", "#7BCCC4", "#
 palette <- c(paired_palette, additional_colors)
 
 # Créer le nuage de points avec les couleurs basées sur l'année
-ggplot(europe_government_expenditure, aes(x = Country, y = `Percent of GPD spent in Education`, color = factor(Year))) +
+ggplot(europe_government_expenditure, aes(x = Country, y = `GPD spent in Education (%)`, color = factor(Year))) +
   geom_point() +
   scale_color_manual(values = palette) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0)) +
-  labs(x = "Country", y = "Percent of GDP spent in Education", title = "Education Expenditure in Europe", color = "Year")
+  labs(x = "Country", y = "GPD spent in Education (%)", title = "Education Expenditure in Europe", color = "Year")
 
 ```
