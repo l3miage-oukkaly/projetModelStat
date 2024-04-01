@@ -126,18 +126,43 @@ annualdeath  %>% group_by(Country)%>%summarise() %>% nrow()
 enrolment_ratio_teritiary_education  %>% group_by(Country)%>%summarise() %>% nrow()
 waterAccess  %>% group_by(Country)%>%summarise() %>% nrow()
 ```
+
+trouver les pays avec les pourcentages les plus et moins élevés en moyenne sur 20 ans
 ```{r}
 governmentEducationExpenditure_mean <- governmentEducationExpenditure %>%
   group_by(Country) %>%
   summarise(Mean_GPD_spent = mean(`GPD spent in Education (%)`))
 
-governmentEducationExpenditure_valmax <- governmentEducationExpenditure_mean %>%
-  top_n(5, wt = `Mean_GPD_spent`)
+governmentEducationExpenditure_valmax <- governmentEducationExpenditure_mean %>% top_n(5, wt = `Mean_GPD_spent`)
 
-# Filtrer les 5 valeurs minimales
-governmentEducationExpenditure_valmin <- governmentEducationExpenditure_mean %>%
-  slice_min(`Mean_GPD_spent`, n = 5)
+governmentEducationExpenditure_valmin <- governmentEducationExpenditure_mean %>% slice_min(`Mean_GPD_spent`, n = 5)
+
+print(governmentEducationExpenditure_valmin$Country)
+
+print(governmentEducationExpenditure_valmax$Country)
 ```
+On selectionne au sein de la table principale les données de ces
+pays 
+```{r}
+pays_min_gov_exp <- filter(governmentEducationExpenditure, Country %in% c("Monaco", "Sudan", "Dominican Republic" , "Central African Republic","Cambodia"))
+
+pays_max_gov_exp <- filter(governmentEducationExpenditure, Country %in% c("Cuba","Denmark",  "Djibouti", "Lesotho","Norway"))
+
+pays_combinés_gov_exp <- filter(governmentEducationExpenditure, Country %in% c("Cuba","Denmark",  "Djibouti", "Lesotho","Norway","Monaco", "Sudan", "Dominican Republic" , "Central African Republic","Cambodia"))
+
+```
+Une fois trouvés, nous pouvons analyser les données de ces pays à l'aide de graphes
+
+```{r}
+ggplot(data = pays_combinés_gov_exp, aes(x = Year, y = `GPD spent in Education (%)`, group = Country, color = Country)) +
+  geom_line() +
+  labs(title = "Education Expenditure",
+       x = "Country",
+       y = "GPD spent in Education (%)") +
+  theme_minimal()
+
+```
+
 
 création de nuages de points (Europe_government_expenditure)
 ```{r}
