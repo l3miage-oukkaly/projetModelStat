@@ -3,9 +3,13 @@
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Lecture du fichier annual-number-of-deaths-by-cause.csv
+Lecture des fichiers et installation des librairies nécesssaires
 ```{r}
 library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(scales)
+
 
 annualdeath <- read.csv("../Dataset/annual-number-of-deaths-by-cause.csv", header = TRUE)
 governmentEducationExpenditure  <- read.csv("../Dataset/total-government-expenditure-on-education-gdp.csv", header = TRUE)
@@ -14,7 +18,7 @@ enrolment_ratio_teritiary_education <- read.csv("../Dataset/enrolment-ratio-teri
 
 enlever les régions
 ```{r}
-library(dplyr)
+
 annualdeath <- annualdeath %>% filter(Code != "");
 governmentEducationExpenditure <- governmentEducationExpenditure  %>% filter(Code != "");
 
@@ -177,33 +181,22 @@ print(pays_manquants)
 
 
 ```
-
-nuage de points 
+création de nuages de points 
 ```{r}
-# Tracer le nuage de points
-plot(`Percent of GPD spent in Education` ~ Year, data = governmentEducationExpenditure,
-     main = "Dépenses gouvernementales en éducation par pays",   # Titre du graphique
-     xlab = "Année",                                           # Étiquette de l'axe X
-     ylab = "Pourcentage du PIB dépensé en éducation",         # Étiquette de l'axe Y
-     col = as.numeric(factor(Country)),                        # Couleur différente pour chaque pays
-     pch = 16,                                                  # Type de marqueur (cercle plein)
-     xlim = c(min(Year), max(Year)),                           # Limites de l'axe X
-     ylim = c(0, max(`Percent of GPD spent in Education`)))     # Limites de l'axe Y
-
-# Enregistrer les marges actuelles
-anciennes_marges <- par("mar")
-
-# Définir de nouvelles marges avec plus d'espace en bas
-par(mar = c(anciennes_marges[1:3], 5))
-
-# Placer la légende sous le graphique
-legend("bottom", legend = levels(factor(governmentEducationExpenditure$Country)), 
-       col = 1:length(levels(factor(governmentEducationExpenditure$Country))), pch = 16, bty = "n", 
-       cex = 0.7, inset = c(0, -0.2)) # Ajuster la marge verticale pour déplacer la légende vers le bas
-
-```
+library(RColorBrewer)
 
 
-```{r}
+# Créer une palette de couleurs distinctes
+n_years <- 21
+paired_palette <- brewer.pal(n = 12, name = "Paired")
+additional_colors <- c("#F7FCF0", "#E0F3DB", "#CEEBC5", "#A8DDB5", "#7BCCC4", "#4EB3D3", "#2B8CBE", "#0868AC", "#084081")
+palette <- c(paired_palette, additional_colors)
+
+# Créer le nuage de points avec les couleurs basées sur l'année
+ggplot(europe_government_expenditure, aes(x = Country, y = `Percent of GPD spent in Education`, color = factor(Year))) +
+  geom_point() +
+  scale_color_manual(values = palette) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0)) +
+  labs(x = "Country", y = "Percent of GDP spent in Education", title = "Education Expenditure in Europe", color = "Year")
 
 ```
