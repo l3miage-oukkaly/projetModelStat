@@ -235,3 +235,14 @@ ggplot(europe_government_expenditure, aes(x = Country, y = `GPD spent in Educati
   labs(x = "Country", y = "GPD spent in Education (%)", title = "Education Expenditure in Europe", color = "Year")
 
 ```
+
+```{r}
+
+# Créer le nuage de points avec les couleurs basées sur l'année
+ggplot(europe_annual_death, aes(x = Country, y = `Cardiovascular diseases`/1000, color = factor(Year))) +
+  geom_point() +
+  scale_color_manual(values = palette) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0)) +
+  labs(x = "Country", y = "Cardiovascular diseases", title = "Education Expenditure in Europe", color = "Year")
+
+```
