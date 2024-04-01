@@ -1,0 +1,26 @@
+Import du dataset & tyding des données
+```{r}
+airPollution <- read.csv("../Dataset/air-pollution.csv", header = TRUE)
+exclude <-  c("Entity", "Year")
+for (col in names(airPollution)) {
+  if (!(col %in% exclude)) {
+    airPollution[[col]] <- round(airPollution[[col]])
+  }
+}
+```
+
+Renommage des colonnes pour la compréhensivité
+```{r}
+colnames(airPollution) <- c("Nitrogen oxide (NOx)", "Sulphur dioxide (SO₂)", "Carbon monoxide (CO)", "Organic carbon (OC)", "NMVOCs", "Black carbon (BC)", "Ammonia (NH₃)", "s1", "s2", "s3", "s3", "s4", "s5", "s6", "Country", "Year")
+```
+
+Retrait des lignes & colonnes inutiles
+```{r}
+airPollution <- select(airPollution, -s1, -s2, -s3, -s4, -s5, -s6)
+airPollution <- subset(airPollution, !(Country %in% c("Asia", "Europe", "Africa", "World", "High-income countries", "Upper-middle-income countries", "North America", "Lower-middle-income countries", "South America", "Oceania", "Low-income countries")))
+```
+
+Filtrage des années qui nous intéressent
+```{r}
+airPollution <- airPollution %>% filter(Year<2011) %>%filter(Year>1989)
+```
