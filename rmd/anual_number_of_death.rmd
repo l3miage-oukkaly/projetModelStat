@@ -243,6 +243,6 @@ ggplot(europe_annual_death, aes(x = Country, y = `Cardiovascular diseases`/1000,
   geom_point() +
   scale_color_manual(values = palette) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0)) +
-  labs(x = "Country", y = "Cardiovascular diseases", title = "Education Expenditure in Europe", color = "Year")
+  labs(x = "Country", y = "Cardiovascular diseases", title = "death related to cardiovascular diseases in Europe", color = "Year")
 
 ```
