@@ -37,16 +37,30 @@ colnames(enrolment_ratio_teritiary_education) <- c("Country","Year","Gender","Ag
 colnames(waterAccess) <- c("Country","Code", "Year", "Water withdrawal per capita ()")
 ```
 supprimer les colonnes inutiles
-drug use ?, drowing ?, hiv aids ?
 ```{r}
 
-annualdeath <- select(annualdeath,-Code, -`Interpersonal violence`, -`Fire heat and hot substances`, -`Road injuries`, -`Conflict and terrorism`, -`Exposure to forces of nature`, -`Self harm` )
+annualdeath <- select(annualdeath,-Code, -`Interpersonal violence`, -`Fire heat and hot substances`, -`Road injuries`, -`Conflict and terrorism`, -`Exposure to forces of nature`, -`Self harm` , -`Alzheimers disease` , -`Parkinsons disease`, -`Drowning`, -`Maternal disorders`, -`Drug use disorders`, -`Alcohol use disorders` , -`Environmental heat and cold exposure`, -`Poisonings`, -`Neonatal disorders`, -`Nutritional deficiencies` , -`Meningitis`)
 
 governmentEducationExpenditure <- select(governmentEducationExpenditure, -Code)
 
 enrolment_ratio_teritiary_education <- select(enrolment_ratio_teritiary_education, -Units, -Age,)
 
 waterAccess <- select(waterAccess, -Code)
+```
+
+unifier certaines maladies sous la même catégorie
+
+```{r}
+annualdeath$`Respiratory diseases` <- annualdeath$`Lower respiratory infections` + annualdeath$`Chronic respiratory diseases`
+
+annualdeath$`Digestives diseases` <- annualdeath$`Digestive diseases` + annualdeath$`Cirrhosis and other chronic liver diseases` + annualdeath$`Acute hepatitis`
+
+annualdeath$`Infectious diseases` <- annualdeath$`Malaria` + annualdeath$`Tuberculosis` + annualdeath$`HIV AIDS` + annualdeath$`Measles` + annualdeath$`Diarrheal diseases`
+
+annualdeath$`Other non communicable diseases` <- annualdeath$`Chronic kidney disease` + annualdeath$`Protein energy malnutrition`
+
+
+annualdeath <- select(annualdeath, -`Lower respiratory infections` , -`Chronic respiratory diseases`, -`Tuberculosis` , -`Digestive diseases`, -`Cirrhosis and other chronic liver diseases`, -`Acute hepatitis`, -`Malaria` , -`HIV AIDS`, -`Measles` , -`Chronic kidney disease` , -`Protein energy malnutrition` ,-`Diarrheal diseases`)
 ```
 
 connaitre les pays que l'on observera pas
