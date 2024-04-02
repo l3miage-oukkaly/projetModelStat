@@ -180,11 +180,11 @@ Une fois trouvés, nous pouvons analyser les données de ces pays à l'aide de g
 
 
 ```{r}
-ggplot(governmentEducationExpenditure_minmax, aes(x= Country, y= `Mean_GPD_spent`)) + geom_bar(stat = "identity") + labs(title="Education Expenditure compared to total GDP", x="Pays", y="mean GPD spent in Education (%)") + scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10), labels = comma_format()) + scale_fill_discrete(name = "Country") + 
+ggplot(governmentEducationExpenditure_minmax, aes(x= Country, y= `Mean_GPD_spent`)) + geom_bar(stat = "identity") + labs(title="Education Expenditure compared to total GDP", x="Country", y="mean GPD spent in Education (%)") + scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10), labels = comma_format()) + scale_fill_discrete(name = "Country") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  
 ```
 ```{r}
-ggplot(death_minmax, aes(x= Country, y= `Mean_death_ID`)) + geom_bar(stat = "identity") + labs(title="Infectious diseases per total number of death(10 countries education exp", x="Pays", y="mean death by Infectious diseases (%)") +  scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10),labels = comma_format()) + scale_fill_discrete(name = "Country") + 
+ggplot(death_minmax, aes(x= Country, y= `Mean_death_ID`)) + geom_bar(stat = "identity") + labs(title="Infectious diseases per total number of death(10 countries education exp", x="Country", y="mean death by Infectious diseases (%)") +  scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10),labels = comma_format()) + scale_fill_discrete(name = "Country") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 ```
 
@@ -207,7 +207,8 @@ enrolmentratio_minmax$Country <- factor(enrolmentratio_minmax$Country, levels = 
 
 pays_combinés_enrolment_ratio <- filter(enrolment_ratio_teritiary_education, Country %in% enrolmentratio_minmax$Country)
 
-print(enrolmentratio_minmax$Country)
+ggplot(enrolmentratio_minmax, aes(x= Country, y= `Enrolment_ratio`)) + geom_bar(stat = "identity") + labs(title="mean enrolment ratio", x="Country", y="mean enrolment ratio (%)") + scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10), labels = comma_format()) + scale_fill_discrete(name = "Country") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 
 ```
 
@@ -219,26 +220,19 @@ pays_h2_death_mean <- pays_h2_death %>%
   group_by(Country) %>%
   summarise(Mean_death_ID = mean(`Infectious diseases prop (%)`))
 
-death_valmax <- pays_h1_death_mean %>% top_n(5, wt = `Mean_death_ID`)
+death_valmax2 <- pays_h2_death_mean %>% top_n(5, wt = `Mean_death_ID`)
 
-death_valmin <- pays_h1_death_mean %>% slice_min(`Mean_death_ID`, n = 5)
+death_valmin2 <- pays_h2_death_mean %>% slice_min(`Mean_death_ID`, n = 5)
 
-death_minmax <- rbind(death_valmin, death_valmax)
+death_minmax2 <- rbind(death_valmin2, death_valmax2)
 
-death_minmax$Country <- factor(death_minmax$Country, levels = death_minmax$Country[order(death_minmax$`Mean_death_ID`)])
+death_minmax2$Country <- factor(death_minmax2$Country, levels = death_minmax2$Country[order(death_minmax2$`Mean_death_ID`)])
 
 ```
 
 ```{r}
-
-
-ggplot(data = pays_h2_death, aes(x = Year, y = `Infectious diseases prop (%)`, group = Country, color = Country)) +
-  geom_line() +
-  labs(title = "Infectious diseases per total number of death",
-       x = "Year",
-       y = "Infectious diseases prop (%)") +
-  theme_minimal() +
- scale_color_manual(values = couleurs) 
+ggplot(death_minmax2, aes(x= Country, y= `Mean_death_ID`)) + geom_bar(stat = "identity") + labs(title="Infectious diseases per total number of death(10 countries education exp", x="Country", y="mean death by Infectious diseases (%)") +  scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10),labels = comma_format()) + scale_fill_discrete(name = "Country") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 
 ```
 ```{r}
@@ -260,9 +254,8 @@ print(waterAcess_valmin$Country)
 print(waterAcess_valmax$Country)
 
 
-pays_h3a_death <- select(annualdeath,Country,Year,`Infectious diseases prop (%)`) %>% filter(Country %in% c("Denmark","Monaco","United Kingdom","Cyprus","Sweden" )) 
+pays_h3a_death <- select(annualdeath,Country,Year,`Infectious diseases prop (%)`) %>% filter(Country %in% c("Denmark","Monaco","United Kingdom","Cyprus","Sweden","Estonia","Hungary","Japan" ,"Libya","Spain")) 
 
-pays_h3b_death <- select(annualdeath,Country,Year,`Infectious diseases prop (%)`) %>% filter(Country %in% c("Estonia","Hungary","Japan" ,"Libya","Spain"))
 
 ```
 

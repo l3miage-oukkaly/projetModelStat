@@ -193,4 +193,12 @@ ggplot(data = pays_combinés_enrolment_ratio, aes(x = Year, y = `Enrolment ratio
   theme_minimal() +
  scale_color_manual(values = couleurs)
 
+
+ggplot(data = pays_h2_death, aes(x = Year, y = `Infectious diseases prop (%)`, group = Country, color = Country)) +
+  geom_line() +
+  labs(title = "Infectious diseases per total number of death",
+       x = "Year",
+       y = "Infectious diseases prop (%)") +
+  theme_minimal() +
+ scale_color_manual(values = couleurs) 
 ```
