@@ -177,21 +177,27 @@ pays_h1_death <- select(annualdeath,Country,Year,`Cardiovascular diseases prop (
 Une fois trouvés, nous pouvons analyser les données de ces pays à l'aide de graphes de lignes
 
 ```{r}
+couleurs <- c("#00AFBB", "#E7B800", "#FC4E07", "#A1D99B", "#8C564B", "#E377C2", "#7F7F7F", "#084081", "#FCCDE5", "#006400")
+
 ggplot(data = pays_combinés_gov_exp, aes(x = Year, y = `GPD spent in Education (%)`, group = Country, color = Country)) +
   geom_line() +
-  labs(title = "Education Expenditure",
+  labs(title = "Education Expenditure compared to total GDP",
        x = "Country",
        y = "GPD spent in Education (%)") +
-  theme_minimal()
+  theme_minimal() +
+   scale_color_manual(values = couleurs)
 
 ```
 ```{r}
+
+
 ggplot(data = pays_h1_death, aes(x = Year, y = `Cardiovascular diseases prop (%)`, group = Country, color = Country)) +
   geom_line() +
   labs(title = "Cardiovascular diseases per total number of",
        x = "Country",
        y = "Cardiovascular diseases (%)") +
-  theme_minimal()
+  theme_minimal() +
+ scale_color_manual(values = couleurs)
 
 ```
 
