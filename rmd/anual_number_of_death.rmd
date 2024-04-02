@@ -3,7 +3,12 @@
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Lecture des fichiers et installation des librairies nécesssaires
+
+III) Methodology
+  III.A) Clean up procedures
+  
+  
+a) Lecture des fichiers et installation des librairies nécesssaires
 ```{r}
 library(tidyverse)
 library(dplyr)
@@ -16,19 +21,17 @@ governmentEducationExpenditure  <- read.csv("../Dataset/total-government-expendi
 enrolment_ratio_teritiary_education <- read.csv("../Dataset/enrolment-ratio-teritiary-education.csv", header = TRUE)
 waterAccess <- read.csv("../Dataset/water-withdrawals-per-capita.csv")
 poptotal <- read.csv("../Dataset/number-of-deaths-per-year.csv")
-population <- read.csv("../Dataset/population-and-demography.csv")
 ```
 
-enlever les codes des régions
+b) Enlever les régions en trouvant les entitiés sans données dans la colonne Code
 ```{r}
-
 annualdeath <- annualdeath %>% filter(Code != "");
 governmentEducationExpenditure <- governmentEducationExpenditure  %>% filter(Code != "");
 waterAccess <- waterAccess %>% filter(Code != "");
 
 ```
 
-changer le nom des colonnes
+c) Changer le nom des colonnes
 ```{r}
 colnames(annualdeath) <- c("Country","Code","Year","Meningitis","Alzheimers disease","Parkinsons disease","Nutritional deficiencies","Malaria",
 "Drowning","Interpersonal violence", "Maternal disorders", "HIV AIDS" , "Drug use disorders", "Tuberculosis", "Cardiovascular diseases", "Lower respiratory infections", "Neonatal disorders","Alcohol use disorders", "Self harm", "Exposure to forces of nature", "Diarrheal diseases", "Environmental heat and cold exposure", "Neoplasms", "Conflict and terrorism", "Diabetes mellitus", "Chronic kidney disease", "Poisonings", "Protein energy malnutrition", "Road injuries", "Chronic respiratory diseases", "Cirrhosis and other chronic liver diseases", "Digestive diseases","Fire heat and hot substances","Acute hepatitis", "Measles"
@@ -41,7 +44,8 @@ colnames(waterAccess) <- c("Country","Code", "Year", "Water withdrawal per capit
 
 colnames(poptotal) <- c("Country","Code", "Year","Deaths", "Death_mean")
 ```
-supprimer les colonnes inutiles
+
+d) Supprimer les colonnes inutiles et selectionner celles qui seront pertinentes pour nos analyses
 ```{r}
 
 annualdeath <- select(annualdeath,-Code, -`Interpersonal violence`, -`Fire heat and hot substances`, -`Road injuries`, -`Conflict and terrorism`, -`Exposure to forces of nature`, -`Self harm` , -`Alzheimers disease` , -`Parkinsons disease`, -`Drowning`, -`Maternal disorders`, -`Drug use disorders`, -`Alcohol use disorders` , -`Environmental heat and cold exposure`, -`Poisonings`, -`Neonatal disorders`, -`Nutritional deficiencies` , -`Meningitis`)
@@ -54,25 +58,15 @@ waterAccess <- select(waterAccess, -Code)
 
 poptotal <- select(poptotal,Country, Year, Deaths)
 
-population <- select(population, Country.name , Year, Population)
-
-colnames(population) <- c("Country", "Year","Population")
 
 ```
 
-unifier certaines maladies sous la même catégorie
+e ) Unifier certaines maladies sous la même catégorie
 
 ```{r}
-annualdeath$`Respiratory diseases` <- annualdeath$`Lower respiratory infections` + annualdeath$`Chronic respiratory diseases`
-
-annualdeath$`Digestives diseases` <- annualdeath$`Digestive diseases` + annualdeath$`Cirrhosis and other chronic liver diseases` + annualdeath$`Acute hepatitis`
-
 annualdeath$`Infectious diseases` <- annualdeath$`Malaria` + annualdeath$`Tuberculosis` + annualdeath$`HIV AIDS` + annualdeath$`Measles` + annualdeath$`Diarrheal diseases`
 
-annualdeath$`Other non communicable diseases` <- annualdeath$`Chronic kidney disease` + annualdeath$`Protein energy malnutrition`
-
-
-annualdeath <- select(annualdeath, -`Lower respiratory infections` , -`Chronic respiratory diseases`, -`Tuberculosis` , -`Digestive diseases`, -`Cirrhosis and other chronic liver diseases`, -`Acute hepatitis`, -`Malaria` , -`HIV AIDS`, -`Measles` , -`Chronic kidney disease` , -`Protein energy malnutrition` ,-`Diarrheal diseases`)
+annualdeath <- select(annualdeath, Country, Year, `Infectious diseases`)
 ```
 
 
@@ -89,10 +83,9 @@ waterAccess <- waterAccess %>% filter(Year<2011) %>%filter(Year>1989)
 
 poptotal <- poptotal  %>% filter(Year<2011) %>%filter(Year>1989)
 
-population <- population %>% filter(Year<2011) %>%filter(Year>1989)
 ```
 
-enlever les pays ayant moins de 20% et la colonne "World"
+Enlever les pays ayant moins de 20% de données et la colonne "World"
 ```{r}
 governmentEducationExpenditure <- governmentEducationExpenditure %>% group_by(Country) %>% filter(n() > 5) %>% filter(Country != "World")
 
@@ -104,37 +97,11 @@ waterAccess <- waterAccess %>% group_by(Country) %>% filter(n() == 5)
 
 ```
 
-nombre d'observations par pays en 20 ans
-```{r}
-governmentEducationExpenditure %>% group_by(Country)%>%count()
-
-annualdeath %>% group_by(Country)%>%count()
-
-enrolment_ratio_teritiary_education %>% group_by(Country)%>%count()
-
-waterAccess %>% group_by(Country)%>%count()
-
-```
-
-nombre de pays observés par table
-```{r}
-governmentEducationExpenditure %>% group_by(Country)%>%summarise() %>% nrow()
-annualdeath  %>% group_by(Country)%>%summarise() %>% nrow()
-enrolment_ratio_teritiary_education  %>% group_by(Country)%>%summarise() %>% nrow()
-waterAccess  %>% group_by(Country)%>%summarise() %>% nrow()
-```
 merge la table poptotal et annualdeath pour obtenir la proportion des morts de certaines maladies comparé à leur population totale
 ```{r}
 
 annualdeath <- merge(annualdeath, poptotal[, c("Country", "Year", "Deaths")], by = c("Country", "Year"))
-
-annualdeath$`Cardiovascular diseases prop (%)` <- annualdeath$`Cardiovascular diseases` / annualdeath$Deaths *100
-annualdeath$`Neoplasms prop (%)` <- annualdeath$Neoplasms / annualdeath$Deaths *100
-annualdeath$`Diabetes mellitus prop (%)` <- annualdeath$`Diabetes mellitus` / annualdeath$Deaths *100
-annualdeath$`Respiratory diseases prop (%)` <- annualdeath$`Respiratory diseases` /  annualdeath$Deaths *100
-annualdeath$`Digestives diseases prop (%)` <- annualdeath$`Digestives diseases` /  annualdeath$Deaths *100
 annualdeath$`Infectious diseases prop (%)` <- annualdeath$`Infectious diseases` /  annualdeath$Deaths *100
-annualdeath$`Other non communicable diseases (%)` <- annualdeath$`Other non communicable diseases` /  annualdeath$Deaths *100
 
 
 ```

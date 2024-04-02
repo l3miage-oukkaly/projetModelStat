@@ -1,8 +1,38 @@
+nombre d'observations par pays en 20 ans
+```{r}
+governmentEducationExpenditure %>% group_by(Country)%>%count()
+
+annualdeath %>% group_by(Country)%>%count()
+
+enrolment_ratio_teritiary_education %>% group_by(Country)%>%count()
+
+waterAccess %>% group_by(Country)%>%count()
+
+```
+
+nombre de pays observés par table
+```{r}
+governmentEducationExpenditure %>% group_by(Country)%>%summarise() %>% nrow()
+annualdeath  %>% group_by(Country)%>%summarise() %>% nrow()
+enrolment_ratio_teritiary_education  %>% group_by(Country)%>%summarise() %>% nrow()
+waterAccess  %>% group_by(Country)%>%summarise() %>% nrow()
+```
+
+
 ```{r}
 
 waterAccess <- merge(waterAccess, population[, c("Country", "Year", "Population")], by = c("Country", "Year"))
 waterAccess$`Water withdrawal prop (%)` <- waterAccess$`Water withdrawal per capita ()` / waterAccess$Population *100
+annualdeath$`Respiratory diseases` <- annualdeath$`Lower respiratory infections` + annualdeath$`Chronic respiratory diseases`
 
+annualdeath$`Digestives diseases` <- annualdeath$`Digestive diseases` + annualdeath$`Cirrhosis and other chronic liver diseases` + annualdeath$`Acute hepatitis`
+annualdeath$`Other non communicable diseases` <- annualdeath$`Chronic kidney disease` + annualdeath$`Protein energy malnutrition`
+annualdeath$`Cardiovascular diseases prop (%)` <- annualdeath$`Cardiovascular diseases` / annualdeath$Deaths *100
+annualdeath$`Neoplasms prop (%)` <- annualdeath$Neoplasms / annualdeath$Deaths *100
+annualdeath$`Diabetes mellitus prop (%)` <- annualdeath$`Diabetes mellitus` / annualdeath$Deaths *100
+annualdeath$`Digestives diseases prop (%)` <- annualdeath$`Digestives diseases` /  annualdeath$Deaths *100
+annualdeath$`Respiratory diseases prop (%)` <- annualdeath$`Respiratory diseases` /  annualdeath$Deaths *100
+annualdeath$`Other non communicable diseases (%)` <- annualdeath$`Other non communicable diseases` /  annualdeath$Deaths *100
 ```
 connaitre le nom des  pays que l'on observera pas
 ```{r}
@@ -201,4 +231,40 @@ ggplot(data = pays_h2_death, aes(x = Year, y = `Infectious diseases prop (%)`, g
        y = "Infectious diseases prop (%)") +
   theme_minimal() +
  scale_color_manual(values = couleurs) 
+```
+```{r}
+ggplot(data = pays_combinés_waterAcess, aes(x = Year, y = `Water withdrawal per capita ()`, group = Country, color = Country)) +
+  geom_line() +
+  labs(title = "Water withdrawal per capita per country(top 5 and bottom 5 countries in the world)",
+       x = "Year",
+       y = "Water withdrawal per capita ()") +
+  theme_minimal() +
+ scale_color_manual(values = couleurs)
+```
+
+```{r}
+
+
+ggplot(data = pays_h3a_death, aes(x = Year, y = `Infectious diseases prop (%)`, group = Country, color = Country)) +
+  geom_line() +
+  labs(title = "Infectious diseases per total number of death (bottom 5 coutries from water withdrawal per capita)",
+       x = "Year",
+       y = "Infectious diseases prop (%)") +
+  theme_minimal() +
+ scale_color_manual(values = couleurs) 
+
+```
+
+```{r}
+
+
+ggplot(data = pays_h3b_death, aes(x = Year, y = `Infectious diseases prop (%)`, group = Country, color = Country)) +
+  geom_line() +
+  labs(title = "Infectious diseases per total number of death (top 5 coutries from water withdrawal per capita)",
+       x = "Year",
+       y = "Infectious diseases prop (%)") +
+  theme_minimal() +
+ scale_color_manual(values = couleurs) 
+
+```
 ```
