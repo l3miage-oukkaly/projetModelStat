@@ -153,9 +153,6 @@ governmentEducationExpenditure_minmax <- rbind(governmentEducationExpenditure_va
 
 governmentEducationExpenditure_minmax$Country <- factor(governmentEducationExpenditure_minmax$Country, levels = governmentEducationExpenditure_minmax$Country[order(governmentEducationExpenditure_minmax$`Mean_GPD_spent`)])
 
-print(governmentEducationExpenditure_valmin$Country)
-
-print(governmentEducationExpenditure_valmax$Country)
 ```
 On selectionne au sein de la table principale les données de ces pays 
 ```{r}
@@ -205,8 +202,6 @@ enrolmentratio_minmax <- rbind(enrolmentratio_valmin, enrolmentratio_valmax)
 
 enrolmentratio_minmax$Country <- factor(enrolmentratio_minmax$Country, levels = enrolmentratio_minmax$Country[order(enrolmentratio_minmax$Enrolment_ratio)])
 
-pays_combinés_enrolment_ratio <- filter(enrolment_ratio_teritiary_education, Country %in% enrolmentratio_minmax$Country)
-
 ggplot(enrolmentratio_minmax, aes(x= Country, y= `Enrolment_ratio`)) + geom_bar(stat = "identity") + labs(title="mean enrolment ratio", x="Country", y="mean enrolment ratio (%)") + scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10), labels = comma_format()) + scale_fill_discrete(name = "Country") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 
@@ -231,7 +226,7 @@ death_minmax2$Country <- factor(death_minmax2$Country, levels = death_minmax2$Co
 ```
 
 ```{r}
-ggplot(death_minmax2, aes(x= Country, y= `Mean_death_ID`)) + geom_bar(stat = "identity") + labs(title="Infectious diseases per total number of death(10 countries education exp", x="Country", y="mean death by Infectious diseases (%)") +  scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10),labels = comma_format()) + scale_fill_discrete(name = "Country") + 
+ggplot(death_minmax2, aes(x= Country, y= `Mean_death_ID`)) + geom_bar(stat = "identity") + labs(title="Infectious diseases per total number of death(10 countries mean enrolment", x="Country", y="mean death by Infectious diseases (%)") +  scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10),labels = comma_format()) + scale_fill_discrete(name = "Country") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 
 ```
@@ -248,10 +243,7 @@ waterAcess_valmin <- waterAcess_mean %>% slice_min(water_access, n = 5)
 
 waterAcess_minmax <- rbind(waterAcess_valmin, waterAcess_valmax)
 
-pays_combinés_waterAcess <- filter(waterAccess, Country %in% waterAcess_minmax$Country)
-
-print(waterAcess_valmin$Country)
-print(waterAcess_valmax$Country)
+waterAcess_minmax$Country <- factor(waterAcess_minmax$Country, levels = waterAcess_minmax$Country[order(waterAcess_minmax$water_access)])
 
 
 pays_h3a_death <- select(annualdeath,Country,Year,`Infectious diseases prop (%)`) %>% filter(Country %in% c("Denmark","Monaco","United Kingdom","Cyprus","Sweden","Estonia","Hungary","Japan" ,"Libya","Spain")) 
