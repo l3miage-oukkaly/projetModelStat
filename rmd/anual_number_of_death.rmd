@@ -157,6 +157,8 @@ Nous testerons 6 hypothèses: -Il existe une corrélation négative entre les d�
 
 -Il existe une relation entre la quantité de gaz toxiques polluants émis dans un pays et la proportion de décès dus à des maladies infectieuses. Les pays qui émettent une grande quantité de polluants atmosphériques pourraient avoir une incidence plus élevée de certaines maladies infectieuses, en raison de l'affaiblissement de la santé respiratoire de la population et de la création d'environnements propices à la propagation de maladies infectieuses.
 
+-Les pays avec un plus grand nombre de personnel médical par rapport à leur population ont une proportion plus faible de décès dus aux maladies infectieuses, indiquant que l'accès à un personnel médical suffisant peut être un facteur important dans la lutte contre les maladies infectieuses.
+
 a) Ce programme nous permet de trouver les pays avec les pourcentages les plus et moins élevés en moyenne sur 20 ans dans la table governmentEducationExpenditure
 ```{r}
 governmentEducationExpenditure_mean <- governmentEducationExpenditure %>%
