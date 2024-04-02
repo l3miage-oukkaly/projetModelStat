@@ -16,9 +16,10 @@ governmentEducationExpenditure  <- read.csv("../Dataset/total-government-expendi
 enrolment_ratio_teritiary_education <- read.csv("../Dataset/enrolment-ratio-teritiary-education.csv", header = TRUE)
 waterAccess <- read.csv("../Dataset/water-withdrawals-per-capita.csv")
 poptotal <- read.csv("../Dataset/number-of-deaths-per-year.csv")
+population <- read.csv("../Dataset/population-and-demography.csv")
 ```
 
-enlever les régions
+enlever les codes des régions
 ```{r}
 
 annualdeath <- annualdeath %>% filter(Code != "");
@@ -26,6 +27,7 @@ governmentEducationExpenditure <- governmentEducationExpenditure  %>% filter(Cod
 waterAccess <- waterAccess %>% filter(Code != "");
 
 ```
+
 changer le nom des colonnes
 ```{r}
 colnames(annualdeath) <- c("Country","Code","Year","Meningitis","Alzheimers disease","Parkinsons disease","Nutritional deficiencies","Malaria",
@@ -33,7 +35,7 @@ colnames(annualdeath) <- c("Country","Code","Year","Meningitis","Alzheimers dise
 )
 colnames(governmentEducationExpenditure) <- c("Country","Code","Year", "GPD spent in Education (%)")
 
-colnames(enrolment_ratio_teritiary_education) <- c("Country","Year","Gender","Age", "Units", "Enrolment ration (%)")
+colnames(enrolment_ratio_teritiary_education) <- c("Country","Year","Gender","Age", "Units", "Enrolment ratio (%)")
 
 colnames(waterAccess) <- c("Country","Code", "Year", "Water withdrawal per capita ()")
 
@@ -52,6 +54,10 @@ waterAccess <- select(waterAccess, -Code)
 
 poptotal <- select(poptotal,Country, Year, Deaths)
 
+population <- select(population, Country.name , Year, Population)
+
+colnames(population) <- c("Country", "Year","Population")
+
 ```
 
 unifier certaines maladies sous la même catégorie
@@ -69,27 +75,6 @@ annualdeath$`Other non communicable diseases` <- annualdeath$`Chronic kidney dis
 annualdeath <- select(annualdeath, -`Lower respiratory infections` , -`Chronic respiratory diseases`, -`Tuberculosis` , -`Digestive diseases`, -`Cirrhosis and other chronic liver diseases`, -`Acute hepatitis`, -`Malaria` , -`HIV AIDS`, -`Measles` , -`Chronic kidney disease` , -`Protein energy malnutrition` ,-`Diarrheal diseases`)
 ```
 
-connaitre les pays que l'on observera pas
-```{r}
-pays_non_observés_annual_death <- annualdeath %>% group_by(Country) %>% filter(n() < 5)
-pays_non_observés_annual_death <- pays_non_observés_annual_death %>% group_by(Country) %>% count()
-
-
-pays_non_observés_government_exp <- governmentEducationExpenditure %>% group_by(Country) %>% filter(n() < 5)
-pays_non_observés_government_exp <- pays_non_observés_government_exp %>% group_by(Country) %>% count()
-
-pays_non_observés_enrolment_ratio_teritiary_education <- enrolment_ratio_teritiary_education %>% group_by(Country) %>% filter(n() < 5)
-pays_non_observés_enrolment_ratio_teritiary_education <- pays_non_observés_enrolment_ratio_teritiary_education  %>% group_by(Country) %>% count()
-
-pays_non_observés_water_access <- waterAccess  %>% group_by(Country) %>% filter(n() < 1)
-pays_non_observés_water_access <- pays_non_observés_water_access  %>% group_by(Country) %>% count()
-
-print(pays_non_observés_government_exp)
-print(pays_non_observés_annual_death)
-print(pays_non_observés_enrolment_ratio_teritiary_education)
-print(pays_non_observés_water_access)
-```
-On a 30 pays non observés pour la table government expenditure, 0 pour annual death et 2 pour enrolment ratio
 
 Filter seuleument les données de 1990 à 2010
 
@@ -103,6 +88,8 @@ enrolment_ratio_teritiary_education <- enrolment_ratio_teritiary_education  %>% 
 waterAccess <- waterAccess %>% filter(Year<2011) %>%filter(Year>1989)
 
 poptotal <- poptotal  %>% filter(Year<2011) %>%filter(Year>1989)
+
+population <- population %>% filter(Year<2011) %>%filter(Year>1989)
 ```
 
 enlever les pays ayant moins de 20% et la colonne "World"
@@ -113,7 +100,7 @@ annualdeath <- annualdeath %>% group_by(Country) %>% filter(n() > 5) %>% filter(
 
 enrolment_ratio_teritiary_education <- enrolment_ratio_teritiary_education %>% group_by(Country) %>% filter(n() > 5) %>% filter(!grepl("^MDG_", Country))
 
-waterAccess <- waterAccess %>% group_by(Country) %>% filter(n() > 1)
+waterAccess <- waterAccess %>% group_by(Country) %>% filter(n() == 5)
 
 ```
 
@@ -126,6 +113,7 @@ annualdeath %>% group_by(Country)%>%count()
 enrolment_ratio_teritiary_education %>% group_by(Country)%>%count()
 
 waterAccess %>% group_by(Country)%>%count()
+
 ```
 
 nombre de pays observés par table
@@ -147,6 +135,8 @@ annualdeath$`Respiratory diseases prop (%)` <- annualdeath$`Respiratory diseases
 annualdeath$`Digestives diseases prop (%)` <- annualdeath$`Digestives diseases` /  annualdeath$Deaths *100
 annualdeath$`Infectious diseases prop (%)` <- annualdeath$`Infectious diseases` /  annualdeath$Deaths *100
 annualdeath$`Other non communicable diseases (%)` <- annualdeath$`Other non communicable diseases` /  annualdeath$Deaths *100
+
+
 ```
 
 trouver les pays avec les pourcentages les plus et moins élevés en moyenne sur 20 ans
@@ -171,7 +161,7 @@ pays
 
 pays_combinés_gov_exp <- filter(governmentEducationExpenditure, Country %in% governmentEducationExpenditure_minmax$Country)
 
-pays_h1_death <- select(annualdeath,Country,Year,`Cardiovascular diseases prop (%)`) %>% filter(Country %in% c("Cuba","Denmark",  "Djibouti", "Lesotho","Norway","Monaco", "Sudan", "Dominican Republic" , "Central African Republic","Cambodia"))  
+pays_h1_death <- select(annualdeath,Country,Year,`Infectious diseases prop (%)`) %>% filter(Country %in% c("Cuba","Denmark",  "Djibouti", "Lesotho","Norway","Monaco", "Sudan", "Dominican Republic" , "Central African Republic","Cambodia"))  
 
 ```
 Une fois trouvés, nous pouvons analyser les données de ces pays à l'aide de graphes de lignes
@@ -191,15 +181,109 @@ ggplot(data = pays_combinés_gov_exp, aes(x = Year, y = `GPD spent in Education 
 ```{r}
 
 
-ggplot(data = pays_h1_death, aes(x = Year, y = `Cardiovascular diseases prop (%)`, group = Country, color = Country)) +
+ggplot(data = pays_h1_death, aes(x = Year, y = `Infectious diseases prop (%)`, group = Country, color = Country)) +
   geom_line() +
-  labs(title = "Cardiovascular diseases per total number of",
+  labs(title = "Infectious diseases per total number of death",
        x = "Country",
-       y = "Cardiovascular diseases (%)") +
+       y = "Infectious diseases prop (%)") +
+  theme_minimal() +
+ scale_color_manual(values = couleurs) 
+
+```
+trouver les pays avec les pourcentages les plus et moins élevés en moyenne sur 20 ans
+```{r}
+enrolmentratio_mean <- enrolment_ratio_teritiary_education %>%
+  group_by(Country) %>%
+  summarise(Enrolment_ratio = mean(`Enrolment ratio (%)`))
+
+enrolmentratio_mean <- enrolmentratio_mean %>% filter(Enrolment_ratio > 0.1)
+
+enrolmentratio_valmax <- enrolmentratio_mean %>% top_n(5, wt = Enrolment_ratio)
+
+enrolmentratio_valmin <- enrolmentratio_mean %>% slice_min(Enrolment_ratio, n = 5)
+
+enrolmentratio_minmax <- rbind(enrolmentratio_valmin, enrolmentratio_valmax)
+
+pays_combinés_enrolment_ratio <- filter(enrolment_ratio_teritiary_education, Country %in% enrolmentratio_minmax$Country)
+
+print(enrolmentratio_minmax$Country)
+
+pays_h2_death <- select(annualdeath,Country,Year,`Infectious diseases prop (%)`) %>% filter(Country %in% c("Sao Tome and Principe","Malawi" ,"Tanzania","Saint Vincent and the Grenadines","Niger","Australia","Canada","Finland", "North Korea","United States")) 
+```
+```{r}
+
+
+ggplot(data = pays_combinés_enrolment_ratio, aes(x = Year, y = `Enrolment ratio (%)`, group = Country, color = Country)) +
+  geom_line() +
+  labs(title = "Enrolment ratio per total population",
+       x = "Country",
+       y = "Enrolment ratio (%)") +
   theme_minimal() +
  scale_color_manual(values = couleurs)
 
 ```
+```{r}
 
 
+ggplot(data = pays_h2_death, aes(x = Year, y = `Infectious diseases prop (%)`, group = Country, color = Country)) +
+  geom_line() +
+  labs(title = "Infectious diseases per total number of death",
+       x = "Country",
+       y = "Infectious diseases prop (%)") +
+  theme_minimal() +
+ scale_color_manual(values = couleurs) 
 
+```
+```{r}
+waterAcess_mean <- waterAccess %>%
+  group_by(Country) %>%
+  summarise(water_access = mean(`Water withdrawal per capita ()`))
+
+waterAcess_mean <- waterAcess_mean %>% filter(water_access > 0.1)
+
+waterAcess_valmax <- waterAcess_mean %>% top_n(5, wt = water_access)
+
+waterAcess_valmin <- waterAcess_mean %>% slice_min(water_access, n = 5)
+
+waterAcess_minmax <- rbind(waterAcess_valmin, waterAcess_valmax)
+
+pays_combinés_waterAcess <- filter(waterAccess, Country %in% waterAcess_minmax$Country)
+
+print(waterAcess_minmax$Country)
+
+pays_h3_death <- select(annualdeath,Country,Year,`Infectious diseases prop (%)`) %>% filter(Country %in% c("Denmark","Monaco","United Kingdom" ,"Cyprus","Sweden","Estonia","Hungary","Japan" ,"Libya","Spain" )) 
+```
+
+```{r}
+
+ggplot(pays_combinés_waterAcess, aes(x = Year, y = `Water withdrawal per capita ()`, color = factor(Country))) +
+  geom_point() +
+  scale_color_manual(values = couleurs) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0)) +
+  labs(x = "Year", y = "Water withdrawal per capita", title = "Water withdrawal per total population", color = "Country")
+
+
+```
+
+```{r}
+ggplot(data = pays_combinés_waterAcess, aes(x = Year, y = `Water withdrawal per capita ()`, group = Country, color = Country)) +
+  geom_line() +
+  labs(title = "Water withdrawal per capita per country",
+       x = "Country",
+       y = "Water withdrawal per capita ()") +
+  theme_minimal() +
+ scale_color_manual(values = couleurs)
+```
+
+```{r}
+
+
+ggplot(data = pays_h3_death, aes(x = Year, y = `Infectious diseases prop (%)`, group = Country, color = Country)) +
+  geom_line() +
+  labs(title = "Infectious diseases per total number of death",
+       x = "Country",
+       y = "Infectious diseases prop (%)") +
+  theme_minimal() +
+ scale_color_manual(values = couleurs) 
+
+```

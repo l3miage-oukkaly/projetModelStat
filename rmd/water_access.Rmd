@@ -1,4 +1,24 @@
 
+connaitre le nom des  pays que l'on observera pas
+```{r}
+pays_non_observés_annual_death <- annualdeath %>% group_by(Country) %>% filter(n() < 5)
+pays_non_observés_annual_death <- pays_non_observés_annual_death %>% group_by(Country) %>% count()
+
+
+pays_non_observés_government_exp <- governmentEducationExpenditure %>% group_by(Country) %>% filter(n() < 5)
+pays_non_observés_government_exp <- pays_non_observés_government_exp %>% group_by(Country) %>% count()
+
+pays_non_observés_enrolment_ratio_teritiary_education <- enrolment_ratio_teritiary_education %>% group_by(Country) %>% filter(n() < 5)
+pays_non_observés_enrolment_ratio_teritiary_education <- pays_non_observés_enrolment_ratio_teritiary_education  %>% group_by(Country) %>% count()
+
+pays_non_observés_water_access <- waterAccess  %>% group_by(Country) %>% filter(n() < 1)
+pays_non_observés_water_access <- pays_non_observés_water_access  %>% group_by(Country) %>% count()
+
+print(pays_non_observés_government_exp)
+print(pays_non_observés_annual_death)
+print(pays_non_observés_enrolment_ratio_teritiary_education)
+print(pays_non_observés_water_access)
+```
 Nous allons générer des graphiques pour chaque tableau par région, car l'inclusion de tous les pays rendrait les graphiques difficiles à lire. Les régions seront l'Europe, l'Asie, l'Amérique du Sud, l'Amérique du Nord, l'Océanie et l'Afrique. L'Amérique du Nord englobera également les pays d'Amérique centrale et des Antilles, et sera désignée sous le nom de 'n_and_c_america'. Les pays du Moyen-Orient seront inclus dans la catégorie Asie.
 
 Dans un premier temps, nous regrouperons les pays par continent. En ce qui concerne l'Europe, nous avons choisi d'inclure la Russie et la Turquie, et de les retirer de la catégorie Asie.
