@@ -79,7 +79,9 @@ airPollution$Polluants <- Polluants
 airPollution <- airPollution[, c("Country", "Year", "Polluants")]
 ```
 
-e ) Unifier certaines maladies sous la même catégorie
+e) Sélection d'une seule catégorie de maladie : maladies infectieuses
+Nous aurions eu trop de graphes et données à analyser si nous avions selctionné tous les différents types de maladies 
+Unifier certaines maladies sous la même catégorie
 
 ```{r}
 annualdeath$`Infectious diseases` <- annualdeath$`Malaria` + annualdeath$`Tuberculosis` + annualdeath$`HIV AIDS` + annualdeath$`Measles` + annualdeath$`Diarrheal diseases`
@@ -88,7 +90,8 @@ annualdeath <- select(annualdeath, Country, Year, `Infectious diseases`)
 ```
 
 
-Filter seuleument les données de 1990 à 2010
+f) Filter seuleument les données de 1990 à 2010
+
 
 ```{r}
 annualdeath <- annualdeath %>% filter(Year<2011);
@@ -109,7 +112,8 @@ colnames(cleanWater) <- c("Country", "Year", "Proportion of population unable to
 cleanWater$`Proportion of population unable to access clean water (%)` <- round((cleanWater$`Proportion of population unable to access clean water (%)`), 2)
 ```
 
-Enlever les pays ayant moins de 20% de données et la colonne "World"
+g) Enlever les pays ayant moins de 20% de données et la colonne "World"
+Cependant dans la table waterAccess nous avons des données qui représentent le retrait d'eau par tete seuleument tous les 5 ans, nous avons donc décidé que nous garderons seuleument les pays ayant la totalité des données sur les 20 années de nos analyses
 ```{r}
 governmentEducationExpenditure <- governmentEducationExpenditure %>% group_by(Country) %>% filter(n() > 5) %>% filter(Country != "World")
 
@@ -121,7 +125,7 @@ waterAccess <- waterAccess %>% group_by(Country) %>% filter(n() == 5)
 
 ```
 
-merge la table poptotal et annualdeath pour obtenir la proportion des morts de certaines maladies comparé à leur population totale
+h) Merge la table poptotal et annualdeath pour obtenir la part des morts des maladies infectieuses par pays sur le nombre total de morts par pays
 ```{r}
 
 annualdeath <- merge(annualdeath, poptotal[, c("Country", "Year", "Deaths")], by = c("Country", "Year"))
@@ -130,7 +134,14 @@ annualdeath$`Infectious diseases prop (%)` <- annualdeath$`Infectious diseases` 
 
 ```
 
-trouver les pays avec les pourcentages les plus et moins élevés en moyenne sur 20 ans
+
+III.B ) Scientific workflow
+
+Initialement, nous avions prévu de diviser chaque tableau en régions pour afficher nos données dans des graphiques à points. Cependant, après réflexion et plusieurs tentatives infructueuses avec les graphiques de lignes, nous avons décidé d'approfondir nos recherches en nous concentrant sur les 5 pays les plus extrêmes pour chaque variable des tableaux que nous avons utilisés. Nous avons ensuite comparé ces pays sélectionnés à leur taux de mortalité par maladies infectieuses.
+
+Pour faciliter la visualisation et la compréhension de nos analyses, nous avons également choisi de calculer les moyennes de chaque variable pour chaque pays. Cela nous a permis d'avoir un affichage plus simple et concis, et de pouvoir émettre des hypothèses plus facilement.   
+
+a) Ce programme nous permet de trouver les pays avec les pourcentages les plus et moins élevés en moyenne sur 20 ans dans la table governmentEducationExpenditure
 ```{r}
 governmentEducationExpenditure_mean <- governmentEducationExpenditure %>%
   group_by(Country) %>%
@@ -145,7 +156,8 @@ governmentEducationExpenditure_minmax <- rbind(governmentEducationExpenditure_va
 governmentEducationExpenditure_minmax$Country <- factor(governmentEducationExpenditure_minmax$Country, levels = governmentEducationExpenditure_minmax$Country[order(governmentEducationExpenditure_minmax$`Mean_GPD_spent`)])
 
 ```
-On selectionne au sein de la table principale les données de ces pays 
+
+b) Une fois ces pays trouvés on les selectionne, au sein de la table annualdeath, les données de ces pays 
 ```{r}
 
 pays_h1_death <- select(annualdeath,Country,Year,`Infectious diseases prop (%)`) %>% filter(Country %in% c("Cuba","Denmark",  "Djibouti", "Lesotho","Norway","Monaco", "Sudan", "Dominican Republic" , "Central African Republic","Cambodia"))  
@@ -163,7 +175,8 @@ death_minmax <- rbind(death_valmin, death_valmax)
 death_minmax$Country <- factor(death_minmax$Country, levels = death_minmax$Country[order(death_minmax$`Mean_death_ID`)])
 
 ```
-Une fois trouvés, nous pouvons analyser les données de ces pays à l'aide de graphes de lignes
+
+Une fois trouvés, nous pouvons analyser les données de ces pays à l'aide de graphes à barres.
 
 
 
