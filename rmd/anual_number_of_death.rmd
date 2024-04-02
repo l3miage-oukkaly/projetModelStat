@@ -21,6 +21,7 @@ governmentEducationExpenditure  <- read.csv("../Dataset/total-government-expendi
 enrolment_ratio_teritiary_education <- read.csv("../Dataset/enrolment-ratio-teritiary-education.csv", header = TRUE)
 waterAccess <- read.csv("../Dataset/water-withdrawals-per-capita.csv")
 poptotal <- read.csv("../Dataset/number-of-deaths-per-year.csv")
+airPollution <- read.csv("../Dataset/air-pollution.csv", header = TRUE)
 ```
 
 b) Enlever les régions en trouvant les entitiés sans données dans la colonne Code
@@ -29,6 +30,12 @@ annualdeath <- annualdeath %>% filter(Code != "");
 governmentEducationExpenditure <- governmentEducationExpenditure  %>% filter(Code != "");
 waterAccess <- waterAccess %>% filter(Code != "");
 
+exclude <-  c("Entity", "Year")
+for (col in names(airPollution)) {
+  if (!(col %in% exclude)) {
+    airPollution[[col]] <- round(airPollution[[col]])
+  }
+}
 ```
 
 c) Changer le nom des colonnes
@@ -43,6 +50,10 @@ colnames(enrolment_ratio_teritiary_education) <- c("Country","Year","Gender","Ag
 colnames(waterAccess) <- c("Country","Code", "Year", "Water withdrawal per capita ()")
 
 colnames(poptotal) <- c("Country","Code", "Year","Deaths", "Death_mean")
+
+colnames(airPollution) <- c("Nitrogen oxide (NOx)", "Sulphur dioxide (SO₂)", "Carbon monoxide (CO)", "Organic carbon (OC)", "NMVOCs", "Black carbon (BC)", "Ammonia (NH₃)", "s1", "s2", "s3", "s3", "s4", "s5", "s6", "Country", "Year")
+
+airPollution <- airPollution[, c("Country", "Year", names(airPollution)[-which(names(airPollution) %in% c("Country", "Year"))])]
 ```
 
 d) Supprimer les colonnes inutiles et selectionner celles qui seront pertinentes pour nos analyses
@@ -58,7 +69,13 @@ waterAccess <- select(waterAccess, -Code)
 
 poptotal <- select(poptotal,Country, Year, Deaths)
 
+airPollution <- select(airPollution, -s1, -s2, -s3, -s4, -s5, -s6, -s3.1)
 
+airPollution <- subset(airPollution, !(Country %in% c("Asia", "Europe", "Africa", "World", "High-income countries", "Upper-middle-income countries", "North America", "Lower-middle-income countries", "South America", "Oceania", "Low-income countries", "Gibraltar", "Sint Maarten (Dutch part)", "Cayman Islands")))
+
+Polluants <- rowSums(airPollution[, -(1:2)])
+airPollution$Polluants <- Polluants
+airPollution <- airPollution[, c("Country", "Year", "Polluants")]
 ```
 
 e ) Unifier certaines maladies sous la même catégorie
@@ -83,6 +100,7 @@ waterAccess <- waterAccess %>% filter(Year<2011) %>%filter(Year>1989)
 
 poptotal <- poptotal  %>% filter(Year<2011) %>%filter(Year>1989)
 
+airPollution <- airPollution %>% filter(Year<2011) %>%filter(Year>1989) %>% filter(Polluants > 10000)
 ```
 
 Enlever les pays ayant moins de 20% de données et la colonne "World"
@@ -236,3 +254,35 @@ ggplot(death_minmax3, aes(x= Country, y= `Mean_death_ID`)) + geom_bar(stat = "id
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
+Analyse : Air Pollution
+Trouver les 10 pays qui polluent le plus et les 10 pays qui polluent le moins
+```{r}
+Polluants_mean <- airPollution %>%
+  group_by(Country) %>%
+  summarise(Polluants = sum(`Polluants`))
+
+Polluants_max <- Polluants_mean %>% top_n(10, wt = `Polluants`)
+
+Polluants_min <- Polluants_mean %>% slice_min(`Polluants`, n = 10)
+
+Polluants_minmax <- rbind(Polluants_min, Polluants_max)
+
+Polluants_minmax$Country <- factor(Polluants_minmax$Country, levels = Polluants_minmax$Country[order(Polluants_minmax$Polluants)])
+```
+
+```{r}
+ggplot(Polluants_minmax, aes(x= Country, y= Polluants)) + geom_bar(stat = "identity") + labs(title="Somme des gaz toxiques polluants émis de 1990 à 2010 (en t)", x="Pays", y="Quantité (en t)") + scale_y_log10(breaks = 10^(0:9), labels = comma_format()) + scale_fill_discrete(name = "Country") +  # Customizing legend title 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotating x-axis labels for better readability
+```
+
+Fusion avec la table des morts afin de filtrer les données
+```{r}
+ProportionPolluants <- merge(Polluants_minmax, annualdeath[c("Country", "Infectious diseases prop (%)")], by = "Country")
+ProportionPolluants <- ProportionPolluants %>% group_by(Country) %>% summarize(`Infectious diseases %` = mean(`Infectious diseases prop (%)`), `Polluants` = mean(`Polluants`))
+```
+
+Affichage du nombre de morts des pays concernés
+```{r}
+ggplot(ProportionPolluants, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") +  # Customizing legend title 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotating x-axis labels for better readability
+```
