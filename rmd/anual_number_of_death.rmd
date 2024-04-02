@@ -275,39 +275,6 @@ ggplot(death_minmax3, aes(x= Country, y= `Mean_death_ID`)) + geom_bar(stat = "id
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-Analyse : Air Pollution
-Trouver les 10 pays qui polluent le plus et les 10 pays qui polluent le moins
-```{r}
-Polluants_mean <- airPollution %>%
-  group_by(Country) %>%
-  summarise(Polluants = sum(`Polluants`))
-
-Polluants_max <- Polluants_mean %>% top_n(10, wt = `Polluants`)
-
-Polluants_min <- Polluants_mean %>% slice_min(`Polluants`, n = 10)
-
-Polluants_minmax <- rbind(Polluants_min, Polluants_max)
-
-Polluants_minmax$Country <- factor(Polluants_minmax$Country, levels = Polluants_minmax$Country[order(Polluants_minmax$Polluants)])
-```
-
-```{r}
-ggplot(Polluants_minmax, aes(x= Country, y= Polluants)) + geom_bar(stat = "identity") + labs(title="Somme des gaz toxiques polluants émis de 1990 à 2010 (en t)", x="Pays", y="Quantité (en t)") + scale_y_log10(breaks = 10^(0:9), labels = comma_format()) + scale_fill_discrete(name = "Country") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-Fusion avec la table des morts afin de filtrer les données
-```{r}
-ProportionPolluants <- merge(Polluants_minmax, annualdeath[c("Country", "Infectious diseases prop (%)")], by = "Country")
-ProportionPolluants <- ProportionPolluants %>% group_by(Country) %>% summarize(`Infectious diseases %` = mean(`Infectious diseases prop (%)`), `Polluants` = mean(`Polluants`))
-```
-
-Affichage du nombre de morts des pays concernés
-```{r}
-ggplot(ProportionPolluants, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
 Analyse : Clean Water access
 Trouver les 10 pays dont la population a le plus accès à l'eau courante et les 10 pays dont la population a le moins accès à l'eau courante
 ```{r}
@@ -338,6 +305,40 @@ ProportionCleanWater <- ProportionCleanWater %>% group_by(Country) %>% summarize
 Affichage du nombre de morts des pays concernés
 ```{r}
 ggplot(ProportionCleanWater, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+Analyse : Air Pollution
+Trouver les 10 pays qui polluent le plus et les 10 pays qui polluent le moins
+```{r}
+Polluants_mean <- airPollution %>%
+  group_by(Country) %>%
+  summarise(Polluants = sum(`Polluants`))
+
+Polluants_max <- Polluants_mean %>% top_n(10, wt = `Polluants`)
+
+Polluants_min <- Polluants_mean %>% slice_min(`Polluants`, n = 10)
+
+Polluants_minmax <- rbind(Polluants_min, Polluants_max)
+
+Polluants_minmax$Country <- factor(Polluants_minmax$Country, levels = Polluants_minmax$Country[order(Polluants_minmax$Polluants)])
+```
+
+```{r}
+ggplot(Polluants_minmax, aes(x= Country, y= Polluants)) + geom_bar(stat = "identity") + labs(title="Somme des gaz toxiques polluants émis de 1990 à 2010 (en t)", x="Pays", y="Quantité (en t)") + scale_y_log10(breaks = 10^(0:9), labels = comma_format()) + scale_fill_discrete(name = "Country") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Fusion avec la table des morts afin de filtrer les données
+```{r}
+ProportionPolluants <- merge(Polluants_minmax, annualdeath[c("Country", "Infectious diseases prop (%)")], by = "Country")
+ProportionPolluants <- ProportionPolluants %>% group_by(Country) %>% summarize(`Infectious diseases %` = mean(`Infectious diseases prop (%)`), `Polluants` = mean(`Polluants`))
+```
+
+Affichage du nombre de morts des pays concernés
+```{r}
+ggplot(ProportionPolluants, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
