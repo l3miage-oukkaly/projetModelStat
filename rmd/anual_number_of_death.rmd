@@ -255,17 +255,6 @@ pays_h3_death <- select(annualdeath,Country,Year,`Infectious diseases prop (%)`)
 ```
 
 ```{r}
-
-ggplot(pays_combinés_waterAcess, aes(x = Year, y = `Water withdrawal per capita ()`, color = factor(Country))) +
-  geom_point() +
-  scale_color_manual(values = couleurs) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0)) +
-  labs(x = "Year", y = "Water withdrawal per capita", title = "Water withdrawal per total population", color = "Country")
-
-
-```
-
-```{r}
 ggplot(data = pays_combinés_waterAcess, aes(x = Year, y = `Water withdrawal per capita ()`, group = Country, color = Country)) +
   geom_line() +
   labs(title = "Water withdrawal per capita per country",
