@@ -177,7 +177,7 @@ Une fois trouvés, nous pouvons analyser les données de ces pays à l'aide de g
 
 
 ```{r}
-ggplot(governmentEducationExpenditure_minmax, aes(x= Country, y= `Mean_GPD_spent`)) + geom_bar(stat = "identity") + labs(title="Education Expenditure compared to total GDP", x="Country", y="mean GPD spent in Education (%)") + scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10), labels = comma_format()) + scale_fill_discrete(name = "Country") + 
+ggplot(governmentEducationExpenditure_minmax, aes(x= Country, y= `Mean_GPD_spent`)) + geom_bar(stat = "identity") + labs(title="Education Expenditure compared to total GDP per country", x="Country", y="mean GPD spent in Education (%)") + scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10), labels = comma_format()) + scale_fill_discrete(name = "Country") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  
 ```
 ```{r}
@@ -202,7 +202,7 @@ enrolmentratio_minmax <- rbind(enrolmentratio_valmin, enrolmentratio_valmax)
 
 enrolmentratio_minmax$Country <- factor(enrolmentratio_minmax$Country, levels = enrolmentratio_minmax$Country[order(enrolmentratio_minmax$Enrolment_ratio)])
 
-ggplot(enrolmentratio_minmax, aes(x= Country, y= `Enrolment_ratio`)) + geom_bar(stat = "identity") + labs(title="mean enrolment ratio", x="Country", y="mean enrolment ratio (%)") + scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10), labels = comma_format()) + scale_fill_discrete(name = "Country") + 
+ggplot(enrolmentratio_minmax, aes(x= Country, y= `Enrolment_ratio`)) + geom_bar(stat = "identity") + labs(title="mean enrolment ratio per country", x="Country", y="mean enrolment ratio (%)") + scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10), labels = comma_format()) + scale_fill_discrete(name = "Country") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 
 ```
@@ -245,44 +245,27 @@ waterAcess_minmax <- rbind(waterAcess_valmin, waterAcess_valmax)
 
 waterAcess_minmax$Country <- factor(waterAcess_minmax$Country, levels = waterAcess_minmax$Country[order(waterAcess_minmax$water_access)])
 
-
-pays_h3a_death <- select(annualdeath,Country,Year,`Infectious diseases prop (%)`) %>% filter(Country %in% c("Denmark","Monaco","United Kingdom","Cyprus","Sweden","Estonia","Hungary","Japan" ,"Libya","Spain")) 
-
-
-```
-
-```{r}
-ggplot(data = pays_combinés_waterAcess, aes(x = Year, y = `Water withdrawal per capita ()`, group = Country, color = Country)) +
-  geom_line() +
-  labs(title = "Water withdrawal per capita per country(top 5 and bottom 5 countries in the world)",
-       x = "Year",
-       y = "Water withdrawal per capita ()") +
-  theme_minimal() +
- scale_color_manual(values = couleurs)
+ggplot(waterAcess_minmax, aes(x= Country, y= `water_access`)) + geom_bar(stat = "identity") + labs(title="mean water withdrawal per capita (m³) per country ", x="Country", y="mean water withdrawal per capita (m³)") + scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10), labels = comma_format()) + scale_fill_discrete(name = "Country") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 ```
 
 ```{r}
 
+pays_h3_death <- select(annualdeath,Country,Year,`Infectious diseases prop (%)`) %>% filter(Country %in% c("Denmark","Monaco","United Kingdom","Cyprus","Sweden","Estonia","Hungary","Japan" ,"Libya","Spain")) 
 
-ggplot(data = pays_h3a_death, aes(x = Year, y = `Infectious diseases prop (%)`, group = Country, color = Country)) +
-  geom_line() +
-  labs(title = "Infectious diseases per total number of death (bottom 5 coutries from water withdrawal per capita)",
-       x = "Year",
-       y = "Infectious diseases prop (%)") +
-  theme_minimal() +
- scale_color_manual(values = couleurs) 
+pays_h3_death_mean <- pays_h3_death %>%
+  group_by(Country) %>%
+  summarise(Mean_death_ID = mean(`Infectious diseases prop (%)`))
 
+death_valmax3 <- pays_h3_death_mean %>% top_n(5, wt = `Mean_death_ID`)
+
+death_valmin3 <- pays_h3_death_mean %>% slice_min(`Mean_death_ID`, n = 5)
+
+death_minmax3 <- rbind(death_valmin3, death_valmax3)
+
+death_minmax3$Country <- factor(death_minmax3$Country, levels = death_minmax3$Country[order(death_minmax3$`Mean_death_ID`)])
+
+ggplot(death_minmax3, aes(x= Country, y= `Mean_death_ID`)) + geom_bar(stat = "identity") + labs(title="Infectious diseases per total number of death(10 countries mean water withdrawal", x="Country", y="mean death by Infectious diseases (%)") +  scale_y_continuous(limits = c(0, NA), breaks = pretty_breaks(n = 10),labels = comma_format()) + scale_fill_discrete(name = "Country") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-```{r}
-
-
-ggplot(data = pays_h3b_death, aes(x = Year, y = `Infectious diseases prop (%)`, group = Country, color = Country)) +
-  geom_line() +
-  labs(title = "Infectious diseases per total number of death (top 5 coutries from water withdrawal per capita)",
-       x = "Year",
-       y = "Infectious diseases prop (%)") +
-  theme_minimal() +
- scale_color_manual(values = couleurs) 
-
-```
