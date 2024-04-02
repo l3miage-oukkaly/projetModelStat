@@ -1,4 +1,9 @@
+```{r}
 
+waterAccess <- merge(waterAccess, population[, c("Country", "Year", "Population")], by = c("Country", "Year"))
+waterAccess$`Water withdrawal prop (%)` <- waterAccess$`Water withdrawal per capita ()` / waterAccess$Population *100
+
+```
 connaitre le nom des  pays que l'on observera pas
 ```{r}
 pays_non_observés_annual_death <- annualdeath %>% group_by(Country) %>% filter(n() < 5)
@@ -153,5 +158,39 @@ ggplot(europe_annual_death, aes(x = Country, y = `Cardiovascular diseases`/1000,
   scale_color_manual(values = palette) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0)) +
   labs(x = "Country", y = "Cardiovascular diseases", title = "death related to cardiovascular diseases in Europe", color = "Year")
+
+```
+
+```{r}
+couleurs <- c("#00AFBB", "#E7B800", "#FC4E07", "#A1D99B", "#8C564B", "#E377C2", "#7F7F7F", "#084081", "#FCCDE5", "#006400")
+
+ggplot(data = pays_combinés_gov_exp, aes(x = Year, y = `GPD spent in Education (%)`, group = Country, color = Country)) +
+  geom_line() +
+  labs(title = "Education Expenditure compared to total GDP",
+       x = "Year",
+       y = "GPD spent in Education (%)") +
+  theme_minimal() +
+   scale_color_manual(values = couleurs)
+
+ggplot(data = pays_h1_death, aes(x = Year, y = `Infectious diseases prop (%)`, group = Country, color = Country)) +
+  geom_line() +
+  labs(title = "Infectious diseases per total number of death",
+       x = "Year",
+       y = "Infectious diseases prop (%)") +
+  theme_minimal() +
+ scale_color_manual(values = couleurs) 
+
+```
+
+```{r}
+
+
+ggplot(data = pays_combinés_enrolment_ratio, aes(x = Year, y = `Enrolment ratio (%)`, group = Country, color = Country)) +
+  geom_line() +
+  labs(title = "Enrolment ratio per total population",
+       x = "Year",
+       y = "Enrolment ratio (%)") +
+  theme_minimal() +
+ scale_color_manual(values = couleurs)
 
 ```
