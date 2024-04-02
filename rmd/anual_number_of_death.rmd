@@ -188,11 +188,10 @@ ggplot(data = pays_combinés_gov_exp, aes(x = Year, y = `GPD spent in Education 
 ```{r}
 ggplot(data = pays_h1_death, aes(x = Year, y = `Cardiovascular diseases prop (%)`, group = Country, color = Country)) +
   geom_line() +
-  labs(title = "Cardiovascular diseases",
+  labs(title = "Cardiovascular diseases per total number of",
        x = "Country",
        y = "Cardiovascular diseases (%)") +
-  theme_minimal()+
-scale_color_manual(values = alpha(hue_pal()(length(unique(pays_h1_death$Country))), 0.8))
+  theme_minimal()
 
 ```
 
