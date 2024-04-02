@@ -1,0 +1,51 @@
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(scales)
+medics <- read.csv("../Dataset/SYB66_154_202310_Health_Personnel.csv", header = TRUE)
+
+```
+Analyse : Medics Presence
+Formatage des données
+```{r}
+medics <- medics %>% filter(X < 2011) %>% filter(row_number() %% 2 == 1)
+medics <- select(medics, -`T10`, -`X.1`, -`X.3`, -`X.4`)
+colnames(medics) <- c("Country", "Year", "Quantity")
+medics$Quantity <- as.integer(gsub(",", "", medics$Quantity))
+medics <- medics %>% group_by(Country) %>% summarise(`Quantity` = sum(`Quantity`))
+```
+Trouver les 10 pays avec la plus forte présence médicale et les 10 pays avec le moins de présence médicale
+```{r}
+medics <- medics %>% group_by(Country) %>% summarise(`Quantity` = sum(`Quantity`))
+
+medics_max <- medics %>% top_n(wt = Quantity, n = 20) %>% slice_head(n = 20)
+
+medics_min <- medics %>% slice_min(Quantity, n = 20) %>% slice_head(n = 20)
+
+medics_minmax <- rbind(medics_min, medics_max)
+
+medics_minmax$Country <- factor(medics_minmax$Country, levels = medics_minmax$Country[order(medics_minmax$Quantity)])
+```
+
+```{r}
+ggplot(medics_minmax, aes(x= Country, y=`Quantity`)) + geom_bar(stat = "identity") + labs(title="Quantité de personnel médical", x="Pays", y="Quantité") + scale_fill_discrete(name = "Country") + scale_y_log10(breaks = 10^(0:9), labels = comma_format()) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Fusion avec la table des morts afin de filtrer les données
+```{r}
+ProportionMedics <- merge(medics_minmax, annualdeath[c("Country", "Infectious diseases prop (%)")], by = "Country")
+ProportionMedics <- ProportionMedics %>% group_by(Country) %>% summarize(`Infectious diseases %` = mean(`Infectious diseases prop (%)`), `Quantity` = mean(`Quantity`))
+```
+
+Affichage du nombre de morts des pays concernés
+```{r}
+ggplot(ProportionMedics, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
