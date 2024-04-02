@@ -23,6 +23,7 @@ waterAccess <- read.csv("../Dataset/water-withdrawals-per-capita.csv")
 poptotal <- read.csv("../Dataset/number-of-deaths-per-year.csv")
 airPollution <- read.csv("../Dataset/air-pollution.csv", header = TRUE)
 cleanWater <- read.csv("../Dataset/share-without-improved-water.csv", header = TRUE)
+medics <- read.csv("../Dataset/SYB66_154_202310_Health_Personnel.csv", header = TRUE)
 ```
 
 b) Enlever les régions en trouvant les entitiés sans données dans la colonne Code
