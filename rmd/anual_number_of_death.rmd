@@ -1,3 +1,8 @@
+Contributeurs : 
+- OUKKAL Yacine 
+- FARINA Alessandro 
+- BOUQUETY Andy 
+- MONACHON Vivan 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
