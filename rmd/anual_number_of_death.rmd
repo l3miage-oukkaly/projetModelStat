@@ -139,7 +139,9 @@ III.B ) Scientific workflow
 
 Initialement, nous avions prévu de diviser chaque tableau en régions pour afficher nos données dans des graphiques à points. Cependant, après réflexion et plusieurs tentatives infructueuses avec les graphiques de lignes, nous avons décidé d'approfondir nos recherches en nous concentrant sur les 5 pays les plus extrêmes pour chaque variable des tableaux que nous avons utilisés. Nous avons ensuite comparé ces pays sélectionnés à leur taux de mortalité par maladies infectieuses.
 
-Pour faciliter la visualisation et la compréhension de nos analyses, nous avons également choisi de calculer les moyennes de chaque variable pour chaque pays. Cela nous a permis d'avoir un affichage plus simple et concis, et de pouvoir émettre des hypothèses plus facilement.   
+Pour faciliter la visualisation et la compréhension de nos analyses, nous avons également choisi de calculer les moyennes de chaque variable pour chaque pays. Cela nous a permis d'avoir un affichage plus simple et concis, et de pouvoir émettre des hypothèses plus facilement.  
+
+Nous testerons 6 hypothèses: -Il existe une corrélation négative entre les dépenses en éducation en pourcentage du PIB et la proportion de décès dus aux maladies infectieuses. C'est-à-dire que les pays qui investissent davantage dans l'éducation ont tendance à avoir un pourcentage plus faible de décès dus à des maladies infectieuses.
 
 a) Ce programme nous permet de trouver les pays avec les pourcentages les plus et moins élevés en moyenne sur 20 ans dans la table governmentEducationExpenditure
 ```{r}
@@ -336,5 +338,5 @@ ProportionCleanWater <- ProportionCleanWater %>% group_by(Country) %>% summarize
 Affichage du nombre de morts des pays concernés
 ```{r}
 ggplot(ProportionCleanWater, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
