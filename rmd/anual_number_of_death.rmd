@@ -140,13 +140,13 @@ merge la table poptotal et annualdeath pour obtenir la proportion des morts de c
 
 annualdeath <- merge(annualdeath, poptotal[, c("Country", "Year", "Deaths")], by = c("Country", "Year"))
 
-annualdeath$`Cardiovascular diseases prop (%)` <- annualdeath$`Cardiovascular diseases` / annualdeath$Deaths
-annualdeath$`Neoplasms prop (%)` <- annualdeath$Neoplasms / annualdeath$Deaths
-annualdeath$`Diabetes mellitus prop (%)` <- annualdeath$`Diabetes mellitus` / annualdeath$Deaths
-annualdeath$`Respiratory diseases prop (%)` <- annualdeath$`Respiratory diseases` /  annualdeath$Deaths
-annualdeath$`Digestives diseases prop (%)` <- annualdeath$`Digestives diseases` /  annualdeath$Deaths
-annualdeath$`Infectious diseases prop (%)` <- annualdeath$`Infectious diseases` /  annualdeath$Deaths
-annualdeath$`Other non communicable diseases (%)` <- annualdeath$`Other non communicable diseases` /  annualdeath$Deaths 
+annualdeath$`Cardiovascular diseases prop (%)` <- annualdeath$`Cardiovascular diseases` / annualdeath$Deaths *100
+annualdeath$`Neoplasms prop (%)` <- annualdeath$Neoplasms / annualdeath$Deaths *100
+annualdeath$`Diabetes mellitus prop (%)` <- annualdeath$`Diabetes mellitus` / annualdeath$Deaths *100
+annualdeath$`Respiratory diseases prop (%)` <- annualdeath$`Respiratory diseases` /  annualdeath$Deaths *100
+annualdeath$`Digestives diseases prop (%)` <- annualdeath$`Digestives diseases` /  annualdeath$Deaths *100
+annualdeath$`Infectious diseases prop (%)` <- annualdeath$`Infectious diseases` /  annualdeath$Deaths *100
+annualdeath$`Other non communicable diseases (%)` <- annualdeath$`Other non communicable diseases` /  annualdeath$Deaths *100
 ```
 
 trouver les pays avec les pourcentages les plus et moins élevés en moyenne sur 20 ans
@@ -171,7 +171,7 @@ pays
 
 pays_combinés_gov_exp <- filter(governmentEducationExpenditure, Country %in% governmentEducationExpenditure_minmax$Country)
 
-pays_h1_death <- select(annualdeath,Country,Year,`Cardiovascular diseases`) %>% filter(Country %in% c("Cuba","Denmark",  "Djibouti", "Lesotho","Norway","Monaco", "Sudan", "Dominican Republic" , "Central African Republic","Cambodia"))  
+pays_h1_death <- select(annualdeath,Country,Year,`Cardiovascular diseases prop (%)`) %>% filter(Country %in% c("Cuba","Denmark",  "Djibouti", "Lesotho","Norway","Monaco", "Sudan", "Dominican Republic" , "Central African Republic","Cambodia"))  
 
 ```
 Une fois trouvés, nous pouvons analyser les données de ces pays à l'aide de graphes de lignes
@@ -186,11 +186,11 @@ ggplot(data = pays_combinés_gov_exp, aes(x = Year, y = `GPD spent in Education 
 
 ```
 ```{r}
-ggplot(data = pays_h1_death, aes(x = Year, y = `Cardiovascular diseases`, group = Country, color = Country)) +
+ggplot(data = pays_h1_death, aes(x = Year, y = `Cardiovascular diseases prop (%)`, group = Country, color = Country)) +
   geom_line() +
   labs(title = "Cardiovascular diseases",
        x = "Country",
-       y = "Cardiovascular diseases") +
+       y = "Cardiovascular diseases (%)") +
   theme_minimal()+
 scale_color_manual(values = alpha(hue_pal()(length(unique(pays_h1_death$Country))), 0.8))
 
