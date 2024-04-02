@@ -15,6 +15,7 @@ annualdeath <- read.csv("../Dataset/annual-number-of-deaths-by-cause.csv", heade
 governmentEducationExpenditure  <- read.csv("../Dataset/total-government-expenditure-on-education-gdp.csv", header = TRUE)
 enrolment_ratio_teritiary_education <- read.csv("../Dataset/enrolment-ratio-teritiary-education.csv", header = TRUE)
 waterAccess <- read.csv("../Dataset/water-withdrawals-per-capita.csv")
+poptotal <- read.csv("../Dataset/number-of-deaths-per-year.csv")
 ```
 
 enlever les régions
@@ -35,6 +36,8 @@ colnames(governmentEducationExpenditure) <- c("Country","Code","Year", "GPD spen
 colnames(enrolment_ratio_teritiary_education) <- c("Country","Year","Gender","Age", "Units", "Enrolment ration (%)")
 
 colnames(waterAccess) <- c("Country","Code", "Year", "Water withdrawal per capita ()")
+
+colnames(poptotal) <- c("Country","Code", "Year","Deaths", "Death_mean")
 ```
 supprimer les colonnes inutiles
 ```{r}
@@ -46,6 +49,9 @@ governmentEducationExpenditure <- select(governmentEducationExpenditure, -Code)
 enrolment_ratio_teritiary_education <- select(enrolment_ratio_teritiary_education, -Units, -Age,)
 
 waterAccess <- select(waterAccess, -Code)
+
+poptotal <- select(poptotal,Country, Year, Deaths)
+
 ```
 
 unifier certaines maladies sous la même catégorie
@@ -95,6 +101,8 @@ governmentEducationExpenditure <- governmentEducationExpenditure  %>% filter(Yea
 enrolment_ratio_teritiary_education <- enrolment_ratio_teritiary_education  %>% filter(Year<2011) %>%filter(Year>1989)  %>%filter(Gender == "All genders") ;
 
 waterAccess <- waterAccess %>% filter(Year<2011) %>%filter(Year>1989)
+
+poptotal <- poptotal  %>% filter(Year<2011) %>%filter(Year>1989)
 ```
 
 enlever les pays ayant moins de 20% et la colonne "World"
@@ -106,6 +114,7 @@ annualdeath <- annualdeath %>% group_by(Country) %>% filter(n() > 5) %>% filter(
 enrolment_ratio_teritiary_education <- enrolment_ratio_teritiary_education %>% group_by(Country) %>% filter(n() > 5) %>% filter(!grepl("^MDG_", Country))
 
 waterAccess <- waterAccess %>% group_by(Country) %>% filter(n() > 1)
+
 ```
 
 nombre d'observations par pays en 20 ans
@@ -126,6 +135,19 @@ annualdeath  %>% group_by(Country)%>%summarise() %>% nrow()
 enrolment_ratio_teritiary_education  %>% group_by(Country)%>%summarise() %>% nrow()
 waterAccess  %>% group_by(Country)%>%summarise() %>% nrow()
 ```
+merge la table poptotal et annualdeath pour obtenir la proportion des morts de certaines maladies comparé à leur population totale
+```{r}
+
+annualdeath <- merge(annualdeath, poptotal[, c("Country", "Year", "Deaths")], by = c("Country", "Year"))
+
+annualdeath$`Cardiovascular diseases prop (%)` <- annualdeath$`Cardiovascular diseases` / annualdeath$Deaths *100
+annualdeath$`Neoplasms prop (%)` <- annualdeath$Neoplasms / annualdeath$Deaths *100
+annualdeath$`Diabetes mellitus prop (%)` <- annualdeath$`Diabetes mellitus` / annualdeath$Deaths *100
+annualdeath$`Respiratory diseases prop (%)` <- annualdeath$`Respiratory diseases` /  annualdeath$Deaths *100
+annualdeath$`Digestives diseases prop (%)` <- annualdeath$`Digestives diseases` /  annualdeath$Deaths *100
+annualdeath$`Infectious diseases prop (%)` <- annualdeath$`Infectious diseases` /  annualdeath$Deaths *100
+annualdeath$`Other non communicable diseases (%)` <- annualdeath$`Other non communicable diseases` /  annualdeath$Deaths *100
+```
 
 trouver les pays avec les pourcentages les plus et moins élevés en moyenne sur 20 ans
 ```{r}
@@ -137,6 +159,8 @@ governmentEducationExpenditure_valmax <- governmentEducationExpenditure_mean %>%
 
 governmentEducationExpenditure_valmin <- governmentEducationExpenditure_mean %>% slice_min(`Mean_GPD_spent`, n = 5)
 
+governmentEducationExpenditure_minmax <- rbind(governmentEducationExpenditure_valmin, governmentEducationExpenditure_valmax)
+
 print(governmentEducationExpenditure_valmin$Country)
 
 print(governmentEducationExpenditure_valmax$Country)
@@ -144,53 +168,38 @@ print(governmentEducationExpenditure_valmax$Country)
 On selectionne au sein de la table principale les données de ces
 pays 
 ```{r}
-pays_min_gov_exp <- filter(governmentEducationExpenditure, Country %in% c("Monaco", "Sudan", "Dominican Republic" , "Central African Republic","Cambodia"))
 
-pays_max_gov_exp <- filter(governmentEducationExpenditure, Country %in% c("Cuba","Denmark",  "Djibouti", "Lesotho","Norway"))
+pays_combinés_gov_exp <- filter(governmentEducationExpenditure, Country %in% governmentEducationExpenditure_minmax$Country)
 
-pays_combinés_gov_exp <- filter(governmentEducationExpenditure, Country %in% c("Cuba","Denmark",  "Djibouti", "Lesotho","Norway","Monaco", "Sudan", "Dominican Republic" , "Central African Republic","Cambodia"))
+pays_h1_death <- select(annualdeath,Country,Year,`Cardiovascular diseases prop (%)`) %>% filter(Country %in% c("Cuba","Denmark",  "Djibouti", "Lesotho","Norway","Monaco", "Sudan", "Dominican Republic" , "Central African Republic","Cambodia"))  
 
 ```
-Une fois trouvés, nous pouvons analyser les données de ces pays à l'aide de graphes
+Une fois trouvés, nous pouvons analyser les données de ces pays à l'aide de graphes de lignes
 
 ```{r}
+couleurs <- c("#00AFBB", "#E7B800", "#FC4E07", "#A1D99B", "#8C564B", "#E377C2", "#7F7F7F", "#084081", "#FCCDE5", "#006400")
+
 ggplot(data = pays_combinés_gov_exp, aes(x = Year, y = `GPD spent in Education (%)`, group = Country, color = Country)) +
   geom_line() +
-  labs(title = "Education Expenditure",
+  labs(title = "Education Expenditure compared to total GDP",
        x = "Country",
        y = "GPD spent in Education (%)") +
-  theme_minimal()
+  theme_minimal() +
+   scale_color_manual(values = couleurs)
 
 ```
-
-
-création de nuages de points (Europe_government_expenditure)
-```{r}
-library(RColorBrewer)
-
-
-# Créer une palette de couleurs distinctes
-n_years <- 21
-paired_palette <- brewer.pal(n = 12, name = "Paired")
-additional_colors <- c("#F7FCF0", "#E0F3DB", "#CEEBC5", "#A8DDB5", "#7BCCC4", "#4EB3D3", "#2B8CBE", "#0868AC", "#084081")
-palette <- c(paired_palette, additional_colors)
-
-# Créer le nuage de points avec les couleurs basées sur l'année
-ggplot(europe_government_expenditure, aes(x = Country, y = `GPD spent in Education (%)`, color = factor(Year))) +
-  geom_point() +
-  scale_color_manual(values = palette) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0)) +
-  labs(x = "Country", y = "GPD spent in Education (%)", title = "Education Expenditure in Europe", color = "Year")
-
-```
-
 ```{r}
 
-# Créer le nuage de points avec les couleurs basées sur l'année
-ggplot(europe_annual_death, aes(x = Country, y = `Cardiovascular diseases`/1000, color = factor(Year))) +
-  geom_point() +
-  scale_color_manual(values = palette) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0)) +
-  labs(x = "Country", y = "Cardiovascular diseases", title = "death related to cardiovascular diseases in Europe", color = "Year")
+
+ggplot(data = pays_h1_death, aes(x = Year, y = `Cardiovascular diseases prop (%)`, group = Country, color = Country)) +
+  geom_line() +
+  labs(title = "Cardiovascular diseases per total number of",
+       x = "Country",
+       y = "Cardiovascular diseases (%)") +
+  theme_minimal() +
+ scale_color_manual(values = couleurs)
 
 ```
+
+
+

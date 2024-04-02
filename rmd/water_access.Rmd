@@ -100,3 +100,38 @@ pays_manquants <- setdiff(pays_manquants, pays_afrique)
 pays_manquants <- setdiff(pays_manquants, pays_oceanie)
 # Afficher la liste des pays manquants
 print(pays_manquants)
+```
+
+création de nuages de points (Europe_government_expenditure)
+
+
+
+```{r}
+library(RColorBrewer)
+
+
+# Créer une palette de couleurs distinctes
+n_years <- 21
+paired_palette <- brewer.pal(n = 12, name = "Paired")
+additional_colors <- c("#F7FCF0", "#E0F3DB", "#CEEBC5", "#A8DDB5", "#7BCCC4", "#4EB3D3", "#2B8CBE", "#0868AC", "#084081")
+palette <- c(paired_palette, additional_colors)
+
+# Créer le nuage de points avec les couleurs basées sur l'année
+ggplot(europe_government_expenditure, aes(x = Country, y = `GPD spent in Education (%)`, color = factor(Year))) +
+  geom_point() +
+  scale_color_manual(values = palette) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0)) +
+  labs(x = "Country", y = "GPD spent in Education (%)", title = "Education Expenditure in Europe", color = "Year")
+
+```
+
+```{r}
+
+# Créer le nuage de points avec les couleurs basées sur l'année
+ggplot(europe_annual_death, aes(x = Country, y = `Cardiovascular diseases`/1000, color = factor(Year))) +
+  geom_point() +
+  scale_color_manual(values = palette) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0)) +
+  labs(x = "Country", y = "Cardiovascular diseases", title = "death related to cardiovascular diseases in Europe", color = "Year")
+
+```
