@@ -1,0 +1,818 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+
+Contributeurs : - OUKKAL Yacine - FARINA Alessandro - BOUQUETY Andy -
+MONACHON Vivian
+
+Problématique : Est-ce que certains indicateurs de développement
+favorisent la mortalité par maladies infectieuses ?
+
+\begin{enumerate}
+\def\labelenumi{\Roman{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Methodology III.A) Clean up procedures
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  Lecture des fichiers et installation des librairies nécesssaires
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+## v dplyr     1.1.4     v readr     2.1.5
+## v forcats   1.0.0     v stringr   1.5.1
+## v ggplot2   3.5.0     v tibble    3.2.1
+## v lubridate 1.9.3     v tidyr     1.3.1
+## v purrr     1.0.2     
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(scales)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attachement du package : 'scales'
+## 
+## L'objet suivant est masqué depuis 'package:purrr':
+## 
+##     discard
+## 
+## L'objet suivant est masqué depuis 'package:readr':
+## 
+##     col_factor
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{annualdeath }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"../Dataset/annual{-}number{-}of{-}deaths{-}by{-}cause.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{governmentEducationExpenditure  }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"../Dataset/total{-}government{-}expenditure{-}on{-}education{-}gdp.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{enrolment\_ratio\_teritiary\_education }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"../Dataset/enrolment{-}ratio{-}teritiary{-}education.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{waterAccess }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"../Dataset/water{-}withdrawals{-}per{-}capita.csv"}\NormalTok{)}
+\NormalTok{poptotal }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"../Dataset/number{-}of{-}deaths{-}per{-}year.csv"}\NormalTok{)}
+\NormalTok{airPollution }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"../Dataset/air{-}pollution.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{cleanWater }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"../Dataset/share{-}without{-}improved{-}water.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{medics }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"../Dataset/SYB66\_154\_202310\_Health\_Personnel.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Enlever les régions en trouvant les entitiés sans données dans la
+  colonne Code
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{annualdeath }\OtherTok{\textless{}{-}}\NormalTok{ annualdeath }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Code }\SpecialCharTok{!=} \StringTok{""}\NormalTok{);}
+\NormalTok{governmentEducationExpenditure }\OtherTok{\textless{}{-}}\NormalTok{ governmentEducationExpenditure  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Code }\SpecialCharTok{!=} \StringTok{""}\NormalTok{);}
+\NormalTok{waterAccess }\OtherTok{\textless{}{-}}\NormalTok{ waterAccess }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Code }\SpecialCharTok{!=} \StringTok{""}\NormalTok{);}
+
+\NormalTok{exclude }\OtherTok{\textless{}{-}}  \FunctionTok{c}\NormalTok{(}\StringTok{"Entity"}\NormalTok{, }\StringTok{"Year"}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{ (col }\ControlFlowTok{in} \FunctionTok{names}\NormalTok{(airPollution)) \{}
+  \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\NormalTok{(col }\SpecialCharTok{\%in\%}\NormalTok{ exclude)) \{}
+\NormalTok{    airPollution[[col]] }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(airPollution[[col]])}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Changer le nom des colonnes
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colnames}\NormalTok{(annualdeath) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{,}\StringTok{"Code"}\NormalTok{,}\StringTok{"Year"}\NormalTok{,}\StringTok{"Meningitis"}\NormalTok{,}\StringTok{"Alzheimers disease"}\NormalTok{,}\StringTok{"Parkinsons disease"}\NormalTok{,}\StringTok{"Nutritional deficiencies"}\NormalTok{,}\StringTok{"Malaria"}\NormalTok{,}
+\StringTok{"Drowning"}\NormalTok{,}\StringTok{"Interpersonal violence"}\NormalTok{, }\StringTok{"Maternal disorders"}\NormalTok{, }\StringTok{"HIV AIDS"}\NormalTok{ , }\StringTok{"Drug use disorders"}\NormalTok{, }\StringTok{"Tuberculosis"}\NormalTok{, }\StringTok{"Cardiovascular diseases"}\NormalTok{, }\StringTok{"Lower respiratory infections"}\NormalTok{, }\StringTok{"Neonatal disorders"}\NormalTok{,}\StringTok{"Alcohol use disorders"}\NormalTok{, }\StringTok{"Self harm"}\NormalTok{, }\StringTok{"Exposure to forces of nature"}\NormalTok{, }\StringTok{"Diarrheal diseases"}\NormalTok{, }\StringTok{"Environmental heat and cold exposure"}\NormalTok{, }\StringTok{"Neoplasms"}\NormalTok{, }\StringTok{"Conflict and terrorism"}\NormalTok{, }\StringTok{"Diabetes mellitus"}\NormalTok{, }\StringTok{"Chronic kidney disease"}\NormalTok{, }\StringTok{"Poisonings"}\NormalTok{, }\StringTok{"Protein energy malnutrition"}\NormalTok{, }\StringTok{"Road injuries"}\NormalTok{, }\StringTok{"Chronic respiratory diseases"}\NormalTok{, }\StringTok{"Cirrhosis and other chronic liver diseases"}\NormalTok{, }\StringTok{"Digestive diseases"}\NormalTok{,}\StringTok{"Fire heat and hot substances"}\NormalTok{,}\StringTok{"Acute hepatitis"}\NormalTok{, }\StringTok{"Measles"}
+\NormalTok{)}
+\FunctionTok{colnames}\NormalTok{(governmentEducationExpenditure) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{,}\StringTok{"Code"}\NormalTok{,}\StringTok{"Year"}\NormalTok{, }\StringTok{"GPD spent in Education (\%)"}\NormalTok{)}
+
+\FunctionTok{colnames}\NormalTok{(enrolment\_ratio\_teritiary\_education) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{,}\StringTok{"Year"}\NormalTok{,}\StringTok{"Gender"}\NormalTok{,}\StringTok{"Age"}\NormalTok{, }\StringTok{"Units"}\NormalTok{, }\StringTok{"Enrolment ratio (\%)"}\NormalTok{)}
+
+\FunctionTok{colnames}\NormalTok{(waterAccess) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{,}\StringTok{"Code"}\NormalTok{, }\StringTok{"Year"}\NormalTok{, }\StringTok{"Water withdrawal per capita ()"}\NormalTok{)}
+
+\FunctionTok{colnames}\NormalTok{(poptotal) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{,}\StringTok{"Code"}\NormalTok{, }\StringTok{"Year"}\NormalTok{,}\StringTok{"Deaths"}\NormalTok{, }\StringTok{"Death\_mean"}\NormalTok{)}
+
+\FunctionTok{colnames}\NormalTok{(airPollution) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Nitrogen oxide (NOx)"}\NormalTok{, }\StringTok{"Sulphur dioxide (SO₂)"}\NormalTok{, }\StringTok{"Carbon monoxide (CO)"}\NormalTok{, }\StringTok{"Organic carbon (OC)"}\NormalTok{, }\StringTok{"NMVOCs"}\NormalTok{, }\StringTok{"Black carbon (BC)"}\NormalTok{, }\StringTok{"Ammonia (NH₃)"}\NormalTok{, }\StringTok{"s1"}\NormalTok{, }\StringTok{"s2"}\NormalTok{, }\StringTok{"s3"}\NormalTok{, }\StringTok{"s3"}\NormalTok{, }\StringTok{"s4"}\NormalTok{, }\StringTok{"s5"}\NormalTok{, }\StringTok{"s6"}\NormalTok{, }\StringTok{"Country"}\NormalTok{, }\StringTok{"Year"}\NormalTok{)}
+
+\NormalTok{airPollution }\OtherTok{\textless{}{-}}\NormalTok{ airPollution[, }\FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{"Year"}\NormalTok{, }\FunctionTok{names}\NormalTok{(airPollution)[}\SpecialCharTok{{-}}\FunctionTok{which}\NormalTok{(}\FunctionTok{names}\NormalTok{(airPollution) }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{"Year"}\NormalTok{))])]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Supprimer les colonnes inutiles et selectionner celles qui seront
+  pertinentes pour nos analyses
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{annualdeath }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(annualdeath,}\SpecialCharTok{{-}}\NormalTok{Code, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Interpersonal violence}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Fire heat and hot substances}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Road injuries}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Conflict and terrorism}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Exposure to forces of nature}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Self harm}\StringTok{\textasciigrave{}}\NormalTok{ , }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Alzheimers disease}\StringTok{\textasciigrave{}}\NormalTok{ , }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Parkinsons disease}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Drowning}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Maternal disorders}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Drug use disorders}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Alcohol use disorders}\StringTok{\textasciigrave{}}\NormalTok{ , }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Environmental heat and cold exposure}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Poisonings}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Neonatal disorders}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Nutritional deficiencies}\StringTok{\textasciigrave{}}\NormalTok{ , }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Meningitis}\StringTok{\textasciigrave{}}\NormalTok{)}
+
+\NormalTok{governmentEducationExpenditure }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(governmentEducationExpenditure, }\SpecialCharTok{{-}}\NormalTok{Code)}
+
+\NormalTok{enrolment\_ratio\_teritiary\_education }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(enrolment\_ratio\_teritiary\_education, }\SpecialCharTok{{-}}\NormalTok{Units, }\SpecialCharTok{{-}}\NormalTok{Age,)}
+
+\NormalTok{waterAccess }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(waterAccess, }\SpecialCharTok{{-}}\NormalTok{Code)}
+
+\NormalTok{poptotal }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(poptotal,Country, Year, Deaths)}
+
+\NormalTok{airPollution }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(airPollution, }\SpecialCharTok{{-}}\NormalTok{s1, }\SpecialCharTok{{-}}\NormalTok{s2, }\SpecialCharTok{{-}}\NormalTok{s3, }\SpecialCharTok{{-}}\NormalTok{s4, }\SpecialCharTok{{-}}\NormalTok{s5, }\SpecialCharTok{{-}}\NormalTok{s6, }\SpecialCharTok{{-}}\NormalTok{s3}\FloatTok{.1}\NormalTok{)}
+
+\NormalTok{airPollution }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(airPollution, }\SpecialCharTok{!}\NormalTok{(Country }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Asia"}\NormalTok{, }\StringTok{"Europe"}\NormalTok{, }\StringTok{"Africa"}\NormalTok{, }\StringTok{"World"}\NormalTok{, }\StringTok{"High{-}income countries"}\NormalTok{, }\StringTok{"Upper{-}middle{-}income countries"}\NormalTok{, }\StringTok{"North America"}\NormalTok{, }\StringTok{"Lower{-}middle{-}income countries"}\NormalTok{, }\StringTok{"South America"}\NormalTok{, }\StringTok{"Oceania"}\NormalTok{, }\StringTok{"Low{-}income countries"}\NormalTok{, }\StringTok{"Gibraltar"}\NormalTok{, }\StringTok{"Sint Maarten (Dutch part)"}\NormalTok{, }\StringTok{"Cayman Islands"}\NormalTok{)))}
+
+\NormalTok{Polluants }\OtherTok{\textless{}{-}} \FunctionTok{rowSums}\NormalTok{(airPollution[, }\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)])}
+\NormalTok{airPollution}\SpecialCharTok{$}\NormalTok{Polluants }\OtherTok{\textless{}{-}}\NormalTok{ Polluants}
+\NormalTok{airPollution }\OtherTok{\textless{}{-}}\NormalTok{ airPollution[, }\FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{"Year"}\NormalTok{, }\StringTok{"Polluants"}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Sélection d'une seule catégorie de maladie : maladies infectieuses
+  Nous aurions eu trop de graphes et données à analyser si nous avions
+  selctionné tous les différents types de maladies Unifier certaines
+  maladies sous la même catégorie
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{annualdeath}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases}\StringTok{\textasciigrave{}} \OtherTok{\textless{}{-}}\NormalTok{ annualdeath}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Malaria}\StringTok{\textasciigrave{}} \SpecialCharTok{+}\NormalTok{ annualdeath}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Tuberculosis}\StringTok{\textasciigrave{}} \SpecialCharTok{+}\NormalTok{ annualdeath}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{HIV AIDS}\StringTok{\textasciigrave{}} \SpecialCharTok{+}\NormalTok{ annualdeath}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Measles}\StringTok{\textasciigrave{}} \SpecialCharTok{+}\NormalTok{ annualdeath}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Diarrheal diseases}\StringTok{\textasciigrave{}}
+
+\NormalTok{annualdeath }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(annualdeath, Country, Year, }\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases}\StringTok{\textasciigrave{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  Filter seuleument les données de 1990 à 2010
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{annualdeath }\OtherTok{\textless{}{-}}\NormalTok{ annualdeath }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textless{}}\DecValTok{2011}\NormalTok{);}
+
+\NormalTok{governmentEducationExpenditure }\OtherTok{\textless{}{-}}\NormalTok{ governmentEducationExpenditure  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textless{}}\DecValTok{2011}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textgreater{}}\DecValTok{1989}\NormalTok{);}
+
+\NormalTok{enrolment\_ratio\_teritiary\_education }\OtherTok{\textless{}{-}}\NormalTok{ enrolment\_ratio\_teritiary\_education  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textless{}}\DecValTok{2011}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textgreater{}}\DecValTok{1989}\NormalTok{)  }\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{filter}\NormalTok{(Gender }\SpecialCharTok{==} \StringTok{"All genders"}\NormalTok{) ;}
+
+\NormalTok{waterAccess }\OtherTok{\textless{}{-}}\NormalTok{ waterAccess }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textless{}}\DecValTok{2011}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textgreater{}}\DecValTok{1989}\NormalTok{)}
+
+\NormalTok{poptotal }\OtherTok{\textless{}{-}}\NormalTok{ poptotal  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textless{}}\DecValTok{2011}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textgreater{}}\DecValTok{1989}\NormalTok{)}
+
+\NormalTok{airPollution }\OtherTok{\textless{}{-}}\NormalTok{ airPollution }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textless{}}\DecValTok{2011}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{filter}\NormalTok{(Year}\SpecialCharTok{\textgreater{}}\DecValTok{1989}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Polluants }\SpecialCharTok{\textgreater{}} \DecValTok{10000}\NormalTok{)}
+
+\NormalTok{cleanWater }\OtherTok{\textless{}{-}}\NormalTok{ cleanWater }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Year }\SpecialCharTok{\textless{}} \DecValTok{2011}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Code }\SpecialCharTok{!=} \StringTok{""}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\NormalTok{Entity }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Gibraltar"}\NormalTok{, }\StringTok{"Sint Maarten (Dutch part)"}\NormalTok{, }\StringTok{"Cayman Islands"}\NormalTok{))}
+\NormalTok{cleanWater }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(cleanWater, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Code}\StringTok{\textasciigrave{}}\NormalTok{)}
+\FunctionTok{colnames}\NormalTok{(cleanWater) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{"Year"}\NormalTok{, }\StringTok{"Proportion of population unable to access clean water (\%)"}\NormalTok{)}
+\NormalTok{cleanWater}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Proportion of population unable to access clean water (\%)}\StringTok{\textasciigrave{}} \OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{((cleanWater}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Proportion of population unable to access clean water (\%)}\StringTok{\textasciigrave{}}\NormalTok{), }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{6}
+\tightlist
+\item
+  Enlever les pays ayant moins de 20\% de données et la colonne
+  ``World'' Cependant dans la table waterAccess nous avons des données
+  qui représentent le retrait d'eau par tete seuleument tous les 5 ans,
+  nous avons donc décidé que nous garderons seuleument les pays ayant la
+  totalité des données sur les 20 années de nos analyses
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{governmentEducationExpenditure }\OtherTok{\textless{}{-}}\NormalTok{ governmentEducationExpenditure }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\FunctionTok{n}\NormalTok{() }\SpecialCharTok{\textgreater{}} \DecValTok{5}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Country }\SpecialCharTok{!=} \StringTok{"World"}\NormalTok{)}
+
+\NormalTok{annualdeath }\OtherTok{\textless{}{-}}\NormalTok{ annualdeath }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\FunctionTok{n}\NormalTok{() }\SpecialCharTok{\textgreater{}} \DecValTok{5}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Country }\SpecialCharTok{!=} \StringTok{"World"}\NormalTok{)}
+
+\NormalTok{enrolment\_ratio\_teritiary\_education }\OtherTok{\textless{}{-}}\NormalTok{ enrolment\_ratio\_teritiary\_education }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\FunctionTok{n}\NormalTok{() }\SpecialCharTok{\textgreater{}} \DecValTok{5}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{grepl}\NormalTok{(}\StringTok{"\^{}MDG\_"}\NormalTok{, Country))}
+
+\NormalTok{waterAccess }\OtherTok{\textless{}{-}}\NormalTok{ waterAccess }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\FunctionTok{n}\NormalTok{() }\SpecialCharTok{==} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{7}
+\tightlist
+\item
+  Merge la table poptotal et annualdeath pour obtenir la part des morts
+  des maladies infectieuses par pays sur le nombre total de morts par
+  pays
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{annualdeath }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(annualdeath, poptotal[, }\FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{"Year"}\NormalTok{, }\StringTok{"Deaths"}\NormalTok{)], }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{"Year"}\NormalTok{))}
+\NormalTok{annualdeath}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases prop (\%)}\StringTok{\textasciigrave{}} \OtherTok{\textless{}{-}}\NormalTok{ annualdeath}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases}\StringTok{\textasciigrave{}} \SpecialCharTok{/}\NormalTok{  annualdeath}\SpecialCharTok{$}\NormalTok{Deaths }\SpecialCharTok{*}\DecValTok{100}
+\end{Highlighting}
+\end{Shaded}
+
+III.B ) Scientific workflow
+
+Nous avions initialement l'intention de segmenter nos données par
+régions et de les présenter sous forme de graphiques à points.
+Cependant, face à plusieurs échecs lors de l'utilisation de graphiques
+linéaires, nous avons choisi de nous concentrer sur l'analyse des cinq
+pays présentant les valeurs les plus extrêmes pour chaque variable dans
+nos tableaux. Nous avons comparé ces pays avec leurs taux respectifs de
+mortalité due aux maladies infectieuses, ce qui a généré six ensembles
+de données distincts et, par conséquent, six hypothèses potentielles sur
+les origines des maladies infectieuses.
+
+Afin d'optimiser la clarté et la compréhension de notre analyse, nous
+avons calculé les moyennes pour chaque variable et chaque pays
+sélectionné. Cette démarche a simplifié la présentation des résultats,
+nous permettant ainsi de formuler des hypothèses de manière plus aisée.
+
+Nous testerons 6 hypothèses: -Il existe une corrélation négative entre
+les dépenses en éducation en pourcentage du PIB et la proportion de
+décès dus aux maladies infectieuses. C'est-à-dire que les pays qui
+investissent davantage dans l'éducation ont tendance à avoir un
+pourcentage plus faible de décès dus à des maladies infectieuses.
+
+-Une plus forte proportion d'inscription universitaire est associée à un
+pourcentage plus faible de décès dus à des maladies infectieuses. Cela
+pourrait indiquer que les pays ayant un taux d'inscription élevé dans
+les établissements éducatifs bénéficient également de meilleurs
+résultats en termes de santé publique, potentiellement grâce à une
+meilleure éducation sur les questions de santé et l'accès à des
+informations sur la prévention et le traitement des maladies
+infectieuses
+
+-Les pays avec un retrait d'eau par habitant plus élevé connaissent une
+proportion plus faible de décès dus aux maladies infectieuses. Cela peut
+suggérer que des ressources en eau plus abondantes et plus accessibles
+contribuent à une meilleure hygiène et à des conditions sanitaires qui
+réduisent la transmission des maladies infectieuses.
+
+-Il existe une corrélation positive entre la proportion de la population
+n'ayant pas accès à l'eau courante et la proportion de décès dus aux
+maladies infectieuses. Cela signifie que les pays où une plus grande
+partie de la population manque d'accès à l'eau courante ont tendance à
+avoir des taux plus élevés de mortalité liée aux maladies infectieuses
+
+-Il existe une relation entre la quantité de gaz toxiques polluants émis
+dans un pays et la proportion de décès dus à des maladies infectieuses.
+Les pays qui émettent une grande quantité de polluants atmosphériques
+pourraient avoir une incidence plus élevée de certaines maladies
+infectieuses, en raison de l'affaiblissement de la santé respiratoire de
+la population et de la création d'environnements propices à la
+propagation de maladies infectieuses.
+
+-Les pays avec un plus grand nombre de personnel médical par rapport à
+leur population ont une proportion plus faible de décès dus aux maladies
+infectieuses, indiquant que l'accès à un personnel médical suffisant
+peut être un facteur important dans la lutte contre les maladies
+infectieuses.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  Ce programme nous permet de trouver les pays avec les pourcentages les
+  plus et moins élevés en moyenne sur 20 ans dans la table
+  governmentEducationExpenditure
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{governmentEducationExpenditure\_mean }\OtherTok{\textless{}{-}}\NormalTok{ governmentEducationExpenditure }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{Mean\_GPD\_spent =} \FunctionTok{mean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{GPD spent in Education (\%)}\StringTok{\textasciigrave{}}\NormalTok{))}
+
+\NormalTok{governmentEducationExpenditure\_valmax }\OtherTok{\textless{}{-}}\NormalTok{ governmentEducationExpenditure\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{top\_n}\NormalTok{(}\DecValTok{5}\NormalTok{, }\AttributeTok{wt =} \StringTok{\textasciigrave{}}\AttributeTok{Mean\_GPD\_spent}\StringTok{\textasciigrave{}}\NormalTok{)}
+
+\NormalTok{governmentEducationExpenditure\_valmin }\OtherTok{\textless{}{-}}\NormalTok{ governmentEducationExpenditure\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_min}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Mean\_GPD\_spent}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{n =} \DecValTok{5}\NormalTok{)}
+
+\NormalTok{governmentEducationExpenditure\_minmax }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(governmentEducationExpenditure\_valmin, governmentEducationExpenditure\_valmax)}
+
+\NormalTok{governmentEducationExpenditure\_minmax}\SpecialCharTok{$}\NormalTok{Country }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(governmentEducationExpenditure\_minmax}\SpecialCharTok{$}\NormalTok{Country, }\AttributeTok{levels =}\NormalTok{ governmentEducationExpenditure\_minmax}\SpecialCharTok{$}\NormalTok{Country[}\FunctionTok{order}\NormalTok{(governmentEducationExpenditure\_minmax}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean\_GPD\_spent}\StringTok{\textasciigrave{}}\NormalTok{)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Une fois ces pays trouvés on les selectionne, au sein de la table
+  annualdeath, les données de ces pays
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pays\_h1\_death }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(annualdeath,Country,Year,}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases prop (\%)}\StringTok{\textasciigrave{}}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Country }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Cuba"}\NormalTok{,}\StringTok{"Denmark"}\NormalTok{,  }\StringTok{"Djibouti"}\NormalTok{, }\StringTok{"Lesotho"}\NormalTok{,}\StringTok{"Norway"}\NormalTok{,}\StringTok{"Monaco"}\NormalTok{, }\StringTok{"Sudan"}\NormalTok{, }\StringTok{"Dominican Republic"}\NormalTok{ , }\StringTok{"Central African Republic"}\NormalTok{,}\StringTok{"Cambodia"}\NormalTok{))  }
+
+\NormalTok{pays\_h1\_death\_mean }\OtherTok{\textless{}{-}}\NormalTok{ pays\_h1\_death }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{Mean\_death\_ID =} \FunctionTok{mean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases prop (\%)}\StringTok{\textasciigrave{}}\NormalTok{))}
+
+\NormalTok{death\_valmax }\OtherTok{\textless{}{-}}\NormalTok{ pays\_h1\_death\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{top\_n}\NormalTok{(}\DecValTok{5}\NormalTok{, }\AttributeTok{wt =} \StringTok{\textasciigrave{}}\AttributeTok{Mean\_death\_ID}\StringTok{\textasciigrave{}}\NormalTok{)}
+
+\NormalTok{death\_valmin }\OtherTok{\textless{}{-}}\NormalTok{ pays\_h1\_death\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_min}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Mean\_death\_ID}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{n =} \DecValTok{5}\NormalTok{)}
+
+\NormalTok{death\_minmax }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(death\_valmin, death\_valmax)}
+
+\NormalTok{death\_minmax}\SpecialCharTok{$}\NormalTok{Country }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(death\_minmax}\SpecialCharTok{$}\NormalTok{Country, }\AttributeTok{levels =}\NormalTok{ death\_minmax}\SpecialCharTok{$}\NormalTok{Country[}\FunctionTok{order}\NormalTok{(death\_minmax}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean\_death\_ID}\StringTok{\textasciigrave{}}\NormalTok{)])}
+\end{Highlighting}
+\end{Shaded}
+
+nous pouvons analyser les données de ces pays à l'aide de graphes à
+barres.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(governmentEducationExpenditure\_minmax, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Country, }\AttributeTok{y=} \StringTok{\textasciigrave{}}\AttributeTok{Mean\_GPD\_spent}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Education Expenditure compared to total GDP per country"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Country"}\NormalTok{, }\AttributeTok{y=}\StringTok{"mean GPD spent in Education (\%)"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{), }\AttributeTok{breaks =} \FunctionTok{pretty\_breaks}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{), }\AttributeTok{labels =} \FunctionTok{comma\_format}\NormalTok{()) }\SpecialCharTok{+} \FunctionTok{scale\_fill\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Country"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))  }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{anual_number_of_death_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(death\_minmax, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Country, }\AttributeTok{y=} \StringTok{\textasciigrave{}}\AttributeTok{Mean\_death\_ID}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Infectious diseases per total number of death(10 countries education exp"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Country"}\NormalTok{, }\AttributeTok{y=}\StringTok{"mean death by Infectious diseases (\%)"}\NormalTok{) }\SpecialCharTok{+}  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{), }\AttributeTok{breaks =} \FunctionTok{pretty\_breaks}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{),}\AttributeTok{labels =} \FunctionTok{comma\_format}\NormalTok{()) }\SpecialCharTok{+} \FunctionTok{scale\_fill\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Country"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{)) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{anual_number_of_death_files/figure-latex/unnamed-chunk-12-1.pdf}
+Après visualisation des données, nous ne pouvons conclure de la
+corrélation entre dépenses éducationnelles et la santé publique de
+nombreux pays divergent de cette hypothèse
+
+Maintenant nous nous pencherons sur le jeux de données
+enrolment\_ratio\_teritiary\_education, nous procéderons à la même
+méthodologie que faite précédement. trouver les pays avec les
+pourcentages les plus et moins élevés en moyenne sur 20 ans
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{enrolmentratio\_mean }\OtherTok{\textless{}{-}}\NormalTok{ enrolment\_ratio\_teritiary\_education }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{Enrolment\_ratio =} \FunctionTok{mean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Enrolment ratio (\%)}\StringTok{\textasciigrave{}}\NormalTok{))}
+
+\NormalTok{enrolmentratio\_mean }\OtherTok{\textless{}{-}}\NormalTok{ enrolmentratio\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Enrolment\_ratio }\SpecialCharTok{\textgreater{}} \FloatTok{0.1}\NormalTok{)}
+
+\NormalTok{enrolmentratio\_valmax }\OtherTok{\textless{}{-}}\NormalTok{ enrolmentratio\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{top\_n}\NormalTok{(}\DecValTok{5}\NormalTok{, }\AttributeTok{wt =}\NormalTok{ Enrolment\_ratio)}
+
+\NormalTok{enrolmentratio\_valmin }\OtherTok{\textless{}{-}}\NormalTok{ enrolmentratio\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_min}\NormalTok{(Enrolment\_ratio, }\AttributeTok{n =} \DecValTok{5}\NormalTok{)}
+
+\NormalTok{enrolmentratio\_minmax }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(enrolmentratio\_valmin, enrolmentratio\_valmax)}
+
+
+\NormalTok{enrolmentratio\_minmax}\SpecialCharTok{$}\NormalTok{Country }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(enrolmentratio\_minmax}\SpecialCharTok{$}\NormalTok{Country, }\AttributeTok{levels =}\NormalTok{ enrolmentratio\_minmax}\SpecialCharTok{$}\NormalTok{Country[}\FunctionTok{order}\NormalTok{(enrolmentratio\_minmax}\SpecialCharTok{$}\NormalTok{Enrolment\_ratio)])}
+
+\FunctionTok{ggplot}\NormalTok{(enrolmentratio\_minmax, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Country, }\AttributeTok{y=} \StringTok{\textasciigrave{}}\AttributeTok{Enrolment\_ratio}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"mean enrolment ratio per country"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Country"}\NormalTok{, }\AttributeTok{y=}\StringTok{"mean enrolment ratio (\%)"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{), }\AttributeTok{breaks =} \FunctionTok{pretty\_breaks}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{), }\AttributeTok{labels =} \FunctionTok{comma\_format}\NormalTok{()) }\SpecialCharTok{+} \FunctionTok{scale\_fill\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Country"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{)) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{anual_number_of_death_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+On selectionne au sein de la table principale les données de ces pays
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pays\_h2\_death }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(annualdeath,Country,Year,}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases prop (\%)}\StringTok{\textasciigrave{}}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Country }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Sao Tome and Principe"}\NormalTok{,}\StringTok{"Malawi"}\NormalTok{ ,}\StringTok{"Tanzania"}\NormalTok{,}\StringTok{"Saint Vincent and the Grenadines"}\NormalTok{,}\StringTok{"Niger"}\NormalTok{,}\StringTok{"Australia"}\NormalTok{,}\StringTok{"Canada"}\NormalTok{,}\StringTok{"Finland"}\NormalTok{, }\StringTok{"North Korea"}\NormalTok{,}\StringTok{"United States"}\NormalTok{)) }
+
+\NormalTok{pays\_h2\_death\_mean }\OtherTok{\textless{}{-}}\NormalTok{ pays\_h2\_death }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{Mean\_death\_ID =} \FunctionTok{mean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases prop (\%)}\StringTok{\textasciigrave{}}\NormalTok{))}
+
+\NormalTok{death\_valmax2 }\OtherTok{\textless{}{-}}\NormalTok{ pays\_h2\_death\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{top\_n}\NormalTok{(}\DecValTok{5}\NormalTok{, }\AttributeTok{wt =} \StringTok{\textasciigrave{}}\AttributeTok{Mean\_death\_ID}\StringTok{\textasciigrave{}}\NormalTok{)}
+
+\NormalTok{death\_valmin2 }\OtherTok{\textless{}{-}}\NormalTok{ pays\_h2\_death\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_min}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Mean\_death\_ID}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{n =} \DecValTok{5}\NormalTok{)}
+
+\NormalTok{death\_minmax2 }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(death\_valmin2, death\_valmax2)}
+
+\NormalTok{death\_minmax2}\SpecialCharTok{$}\NormalTok{Country }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(death\_minmax2}\SpecialCharTok{$}\NormalTok{Country, }\AttributeTok{levels =}\NormalTok{ death\_minmax2}\SpecialCharTok{$}\NormalTok{Country[}\FunctionTok{order}\NormalTok{(death\_minmax2}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean\_death\_ID}\StringTok{\textasciigrave{}}\NormalTok{)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(death\_minmax2, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Country, }\AttributeTok{y=} \StringTok{\textasciigrave{}}\AttributeTok{Mean\_death\_ID}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Infectious diseases per total number of death(10 countries mean enrolment"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Country"}\NormalTok{, }\AttributeTok{y=}\StringTok{"mean death by Infectious diseases (\%)"}\NormalTok{) }\SpecialCharTok{+}  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{), }\AttributeTok{breaks =} \FunctionTok{pretty\_breaks}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{),}\AttributeTok{labels =} \FunctionTok{comma\_format}\NormalTok{()) }\SpecialCharTok{+} \FunctionTok{scale\_fill\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Country"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{)) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{anual_number_of_death_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+Les graphiques suggèrent une tendance selon laquelle une éducation plus
+accessible et plus répandue pourrait coïncider avec de meilleurs
+résultats de santé en ce qui concerne les maladies infectieuses
+
+Maintenant, nous combienrons les données des table waterAccess,
+repésentant le nombre de m3 debité par habitant, tout en sélctionnant
+les pays les plus extremes
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{waterAcess\_mean }\OtherTok{\textless{}{-}}\NormalTok{ waterAccess }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{water\_access =} \FunctionTok{mean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Water withdrawal per capita ()}\StringTok{\textasciigrave{}}\NormalTok{))}
+
+\NormalTok{waterAcess\_mean }\OtherTok{\textless{}{-}}\NormalTok{ waterAcess\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(water\_access }\SpecialCharTok{\textgreater{}} \FloatTok{0.1}\NormalTok{)}
+
+\NormalTok{waterAcess\_valmax }\OtherTok{\textless{}{-}}\NormalTok{ waterAcess\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{top\_n}\NormalTok{(}\DecValTok{5}\NormalTok{, }\AttributeTok{wt =}\NormalTok{ water\_access)}
+
+\NormalTok{waterAcess\_valmin }\OtherTok{\textless{}{-}}\NormalTok{ waterAcess\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_min}\NormalTok{(water\_access, }\AttributeTok{n =} \DecValTok{5}\NormalTok{)}
+
+\NormalTok{waterAcess\_minmax }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(waterAcess\_valmin, waterAcess\_valmax)}
+
+\NormalTok{waterAcess\_minmax}\SpecialCharTok{$}\NormalTok{Country }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(waterAcess\_minmax}\SpecialCharTok{$}\NormalTok{Country, }\AttributeTok{levels =}\NormalTok{ waterAcess\_minmax}\SpecialCharTok{$}\NormalTok{Country[}\FunctionTok{order}\NormalTok{(waterAcess\_minmax}\SpecialCharTok{$}\NormalTok{water\_access)])}
+
+\FunctionTok{ggplot}\NormalTok{(waterAcess\_minmax, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Country, }\AttributeTok{y=} \StringTok{\textasciigrave{}}\AttributeTok{water\_access}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"mean water withdrawal per capita (m³) per country "}\NormalTok{, }\AttributeTok{x=}\StringTok{"Country"}\NormalTok{, }\AttributeTok{y=}\StringTok{"mean water withdrawal per capita (m³)"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{), }\AttributeTok{breaks =} \FunctionTok{pretty\_breaks}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{), }\AttributeTok{labels =} \FunctionTok{comma\_format}\NormalTok{()) }\SpecialCharTok{+} \FunctionTok{scale\_fill\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Country"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{)) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{anual_number_of_death_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pays\_h3\_death }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(annualdeath,Country,Year,}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases prop (\%)}\StringTok{\textasciigrave{}}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Country }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Denmark"}\NormalTok{,}\StringTok{"Monaco"}\NormalTok{,}\StringTok{"United Kingdom"}\NormalTok{,}\StringTok{"Cyprus"}\NormalTok{,}\StringTok{"Sweden"}\NormalTok{,}\StringTok{"Estonia"}\NormalTok{,}\StringTok{"Hungary"}\NormalTok{,}\StringTok{"Japan"}\NormalTok{ ,}\StringTok{"Libya"}\NormalTok{,}\StringTok{"Spain"}\NormalTok{)) }
+
+\NormalTok{pays\_h3\_death\_mean }\OtherTok{\textless{}{-}}\NormalTok{ pays\_h3\_death }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{Mean\_death\_ID =} \FunctionTok{mean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases prop (\%)}\StringTok{\textasciigrave{}}\NormalTok{))}
+
+\NormalTok{death\_valmax3 }\OtherTok{\textless{}{-}}\NormalTok{ pays\_h3\_death\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{top\_n}\NormalTok{(}\DecValTok{5}\NormalTok{, }\AttributeTok{wt =} \StringTok{\textasciigrave{}}\AttributeTok{Mean\_death\_ID}\StringTok{\textasciigrave{}}\NormalTok{)}
+
+\NormalTok{death\_valmin3 }\OtherTok{\textless{}{-}}\NormalTok{ pays\_h3\_death\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_min}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Mean\_death\_ID}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{n =} \DecValTok{5}\NormalTok{)}
+
+\NormalTok{death\_minmax3 }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(death\_valmin3, death\_valmax3)}
+
+\NormalTok{death\_minmax3}\SpecialCharTok{$}\NormalTok{Country }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(death\_minmax3}\SpecialCharTok{$}\NormalTok{Country, }\AttributeTok{levels =}\NormalTok{ death\_minmax3}\SpecialCharTok{$}\NormalTok{Country[}\FunctionTok{order}\NormalTok{(death\_minmax3}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Mean\_death\_ID}\StringTok{\textasciigrave{}}\NormalTok{)])}
+
+\FunctionTok{ggplot}\NormalTok{(death\_minmax3, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Country, }\AttributeTok{y=} \StringTok{\textasciigrave{}}\AttributeTok{Mean\_death\_ID}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Infectious diseases per total number of death(10 countries mean water withdrawal"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Country"}\NormalTok{, }\AttributeTok{y=}\StringTok{"mean death by Infectious diseases (\%)"}\NormalTok{) }\SpecialCharTok{+}  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\ConstantTok{NA}\NormalTok{), }\AttributeTok{breaks =} \FunctionTok{pretty\_breaks}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{),}\AttributeTok{labels =} \FunctionTok{comma\_format}\NormalTok{()) }\SpecialCharTok{+} \FunctionTok{scale\_fill\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Country"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{anual_number_of_death_files/figure-latex/unnamed-chunk-17-1.pdf}
+Il ne semble pas y avoir une corrélation directe et uniforme entre le
+retrait d'eau par habitant et le pourcentage de décès dus aux maladies
+infectieuses sur la base des pays présentés. Par exemple, tandis que la
+Libye présente à la fois le retrait d'eau le plus élevé et le
+pourcentage le plus élevé de décès dus aux maladies infectieuses,
+l'Espagne a également un retrait d'eau élevé mais un pourcentage
+beaucoup plus faible de décès dus aux maladies infectieuses
+
+Analyse : Clean Water access Trouver les 10 pays dont la population a le
+plus accès à l'eau courante et les 10 pays dont la population a le moins
+accès à l'eau courante
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cleanWater\_mean }\OtherTok{\textless{}{-}}\NormalTok{ cleanWater }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Proportion of population unable to access clean water (\%)}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{mean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Proportion of population unable to access clean water (\%)}\StringTok{\textasciigrave{}}\NormalTok{))}
+
+\NormalTok{cleanWater\_max }\OtherTok{\textless{}{-}}\NormalTok{ cleanWater\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{top\_n}\NormalTok{(}\AttributeTok{wt =} \StringTok{\textasciigrave{}}\AttributeTok{Proportion of population unable to access clean water (\%)}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{n =} \DecValTok{10}\NormalTok{) }
+
+\NormalTok{cleanWater\_min }\OtherTok{\textless{}{-}}\NormalTok{ cleanWater\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_min}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Proportion of population unable to access clean water (\%)}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{n =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{)}
+
+\NormalTok{cleanWater\_minmax }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(cleanWater\_min, cleanWater\_max)}
+
+\NormalTok{cleanWater\_minmax}\SpecialCharTok{$}\NormalTok{Country }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(cleanWater\_minmax}\SpecialCharTok{$}\NormalTok{Country, }\AttributeTok{levels =}\NormalTok{ cleanWater\_minmax}\SpecialCharTok{$}\NormalTok{Country[}\FunctionTok{order}\NormalTok{(cleanWater\_minmax}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Proportion of population unable to access clean water (\%)}\StringTok{\textasciigrave{}}\NormalTok{)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(cleanWater\_minmax, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Country, }\AttributeTok{y=}\StringTok{\textasciigrave{}}\AttributeTok{Proportion of population unable to access clean water (\%)}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Proportion de la population n\textquotesingle{}ayant pas accès à l\textquotesingle{}eau courante"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Pays"}\NormalTok{, }\AttributeTok{y=}\StringTok{"Proportion (en \%)"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{scale\_fill\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Country"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{anual_number_of_death_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+Fusion avec la table des morts afin de filtrer les données
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ProportionCleanWater }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(cleanWater\_minmax, annualdeath[}\FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{"Infectious diseases prop (\%)"}\NormalTok{)], }\AttributeTok{by =} \StringTok{"Country"}\NormalTok{)}
+\NormalTok{ProportionCleanWater }\OtherTok{\textless{}{-}}\NormalTok{ ProportionCleanWater }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarize}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases \%}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{mean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases prop (\%)}\StringTok{\textasciigrave{}}\NormalTok{), }\StringTok{\textasciigrave{}}\AttributeTok{Proportion of population unable to access clean water (\%)}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{mean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Proportion of population unable to access clean water (\%)}\StringTok{\textasciigrave{}}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Affichage du nombre de morts des pays concernés
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(ProportionCleanWater, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Country, }\AttributeTok{y=}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases \%}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Proportion de personnes mortes de maladies infectieuses"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Pays"}\NormalTok{, }\AttributeTok{y=}\StringTok{"Quantité (en \%)"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{comma\_format}\NormalTok{()) }\SpecialCharTok{+} \FunctionTok{scale\_fill\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Country"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{anual_number_of_death_files/figure-latex/unnamed-chunk-21-1.pdf}
+Il apparaît que les pays avec un accès limité à l'eau courante ont
+tendance à présenter des taux plus élevés de mortalité due aux maladies
+infectieuses. Ceci est conforme à l'idée que l'accès à l'eau propre est
+un facteur important dans la prévention et le contrôle des maladies
+infectieuse
+
+Analyse : Air Pollution Trouver les 10 pays qui polluent le plus et les
+10 pays qui polluent le moins
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Polluants\_mean }\OtherTok{\textless{}{-}}\NormalTok{ airPollution }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{Polluants =} \FunctionTok{sum}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Polluants}\StringTok{\textasciigrave{}}\NormalTok{))}
+
+\NormalTok{Polluants\_max }\OtherTok{\textless{}{-}}\NormalTok{ Polluants\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{top\_n}\NormalTok{(}\DecValTok{10}\NormalTok{, }\AttributeTok{wt =} \StringTok{\textasciigrave{}}\AttributeTok{Polluants}\StringTok{\textasciigrave{}}\NormalTok{)}
+
+\NormalTok{Polluants\_min }\OtherTok{\textless{}{-}}\NormalTok{ Polluants\_mean }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_min}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Polluants}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{n =} \DecValTok{10}\NormalTok{)}
+
+\NormalTok{Polluants\_minmax }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(Polluants\_min, Polluants\_max)}
+
+\NormalTok{Polluants\_minmax}\SpecialCharTok{$}\NormalTok{Country }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Polluants\_minmax}\SpecialCharTok{$}\NormalTok{Country, }\AttributeTok{levels =}\NormalTok{ Polluants\_minmax}\SpecialCharTok{$}\NormalTok{Country[}\FunctionTok{order}\NormalTok{(Polluants\_minmax}\SpecialCharTok{$}\NormalTok{Polluants)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(Polluants\_minmax, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Country, }\AttributeTok{y=}\NormalTok{ Polluants)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Somme des gaz toxiques polluants émis de 1990 à 2010 (en t)"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Pays"}\NormalTok{, }\AttributeTok{y=}\StringTok{"Quantité (en t)"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{scale\_y\_log10}\NormalTok{(}\AttributeTok{breaks =} \DecValTok{10}\SpecialCharTok{\^{}}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\DecValTok{9}\NormalTok{), }\AttributeTok{labels =} \FunctionTok{comma\_format}\NormalTok{()) }\SpecialCharTok{+} \FunctionTok{scale\_fill\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Country"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{anual_number_of_death_files/figure-latex/unnamed-chunk-23-1.pdf}
+
+Fusion avec la table des morts afin de filtrer les données
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ProportionPolluants }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(Polluants\_minmax, annualdeath[}\FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{"Infectious diseases prop (\%)"}\NormalTok{)], }\AttributeTok{by =} \StringTok{"Country"}\NormalTok{)}
+\NormalTok{ProportionPolluants }\OtherTok{\textless{}{-}}\NormalTok{ ProportionPolluants }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarize}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases \%}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{mean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases prop (\%)}\StringTok{\textasciigrave{}}\NormalTok{), }\StringTok{\textasciigrave{}}\AttributeTok{Polluants}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{mean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Polluants}\StringTok{\textasciigrave{}}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Affichage du nombre de morts des pays concernés
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(ProportionPolluants, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Country, }\AttributeTok{y=}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases \%}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Proportion de personnes mortes de maladies infectieuses"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Pays"}\NormalTok{, }\AttributeTok{y=}\StringTok{"Quantité (en \%)"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{comma\_format}\NormalTok{()) }\SpecialCharTok{+} \FunctionTok{scale\_fill\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Country"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{anual_number_of_death_files/figure-latex/unnamed-chunk-25-1.pdf}
+Il n'est pas évident qu'il existe une corrélation directe et cohérente
+entre les émissions totales de gaz toxiques et la proportion de décès
+dus à des maladies infectieuses pour les pays représentés. Par exemple,
+bien que la Chine et les États-Unis aient des émissions très élevées, la
+proportion de décès dus aux maladies infectieuses n'est pas la plus
+haute par rapport à d'autres pays avec des émissions plus faibles
+
+Analyse : Medics Presence Formatage des données
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{medics }\OtherTok{\textless{}{-}}\NormalTok{ medics }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(X }\SpecialCharTok{\textless{}} \DecValTok{2011}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\FunctionTok{row\_number}\NormalTok{() }\SpecialCharTok{\%\%} \DecValTok{2} \SpecialCharTok{==} \DecValTok{1}\NormalTok{)}
+\NormalTok{medics }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(medics, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{T10}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{X.1}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{X.3}\StringTok{\textasciigrave{}}\NormalTok{, }\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{X.4}\StringTok{\textasciigrave{}}\NormalTok{)}
+\FunctionTok{colnames}\NormalTok{(medics) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{"Year"}\NormalTok{, }\StringTok{"Quantity"}\NormalTok{)}
+\NormalTok{medics}\SpecialCharTok{$}\NormalTok{Quantity }\OtherTok{\textless{}{-}} \FunctionTok{as.integer}\NormalTok{(}\FunctionTok{gsub}\NormalTok{(}\StringTok{","}\NormalTok{, }\StringTok{""}\NormalTok{, medics}\SpecialCharTok{$}\NormalTok{Quantity))}
+\NormalTok{medics }\OtherTok{\textless{}{-}}\NormalTok{ medics }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarise}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Quantity}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{sum}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Quantity}\StringTok{\textasciigrave{}}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Trouver les 10 pays avec la plus forte présence médicale et les 10 pays
+avec le moins de présence médicale
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{medics }\OtherTok{\textless{}{-}}\NormalTok{ medics }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarise}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Quantity}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{sum}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Quantity}\StringTok{\textasciigrave{}}\NormalTok{))}
+
+\NormalTok{medics\_max }\OtherTok{\textless{}{-}}\NormalTok{ medics }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{top\_n}\NormalTok{(}\AttributeTok{wt =}\NormalTok{ Quantity, }\AttributeTok{n =} \DecValTok{20}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n =} \DecValTok{20}\NormalTok{)}
+
+\NormalTok{medics\_min }\OtherTok{\textless{}{-}}\NormalTok{ medics }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_min}\NormalTok{(Quantity, }\AttributeTok{n =} \DecValTok{20}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n =} \DecValTok{20}\NormalTok{)}
+
+\NormalTok{medics\_minmax }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(medics\_min, medics\_max)}
+
+\NormalTok{medics\_minmax}\SpecialCharTok{$}\NormalTok{Country }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(medics\_minmax}\SpecialCharTok{$}\NormalTok{Country, }\AttributeTok{levels =}\NormalTok{ medics\_minmax}\SpecialCharTok{$}\NormalTok{Country[}\FunctionTok{order}\NormalTok{(medics\_minmax}\SpecialCharTok{$}\NormalTok{Quantity)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(medics\_minmax, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Country, }\AttributeTok{y=}\StringTok{\textasciigrave{}}\AttributeTok{Quantity}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Quantité de personnel médical"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Pays"}\NormalTok{, }\AttributeTok{y=}\StringTok{"Quantité"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{scale\_fill\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Country"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{scale\_y\_log10}\NormalTok{(}\AttributeTok{breaks =} \DecValTok{10}\SpecialCharTok{\^{}}\NormalTok{(}\DecValTok{0}\SpecialCharTok{:}\DecValTok{9}\NormalTok{), }\AttributeTok{labels =} \FunctionTok{comma\_format}\NormalTok{()) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{anual_number_of_death_files/figure-latex/unnamed-chunk-28-1.pdf}
+
+Fusion avec la table des morts afin de filtrer les données
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ProportionMedics }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(medics\_minmax, annualdeath[}\FunctionTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{"Infectious diseases prop (\%)"}\NormalTok{)], }\AttributeTok{by =} \StringTok{"Country"}\NormalTok{)}
+\NormalTok{ProportionMedics }\OtherTok{\textless{}{-}}\NormalTok{ ProportionMedics }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(Country) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarize}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases \%}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{mean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases prop (\%)}\StringTok{\textasciigrave{}}\NormalTok{), }\StringTok{\textasciigrave{}}\AttributeTok{Quantity}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{mean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Quantity}\StringTok{\textasciigrave{}}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Affichage du nombre de morts des pays concernés
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(ProportionMedics, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ Country, }\AttributeTok{y=}\StringTok{\textasciigrave{}}\AttributeTok{Infectious diseases \%}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Proportion de personnes mortes de maladies infectieuses"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Pays"}\NormalTok{, }\AttributeTok{y=}\StringTok{"Quantité (en \%)"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{comma\_format}\NormalTok{()) }\SpecialCharTok{+} \FunctionTok{scale\_fill\_discrete}\NormalTok{(}\AttributeTok{name =} \StringTok{"Country"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{anual_number_of_death_files/figure-latex/unnamed-chunk-30-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  résultat : Les pays avec un plus grand nombre de personnel médical par
+  rapport à leur population ont une proportion plus faible de décès dus
+  aux maladies infectieuses, indiquant que l'accès à un personnel
+  médical suffisant peut être un facteur important dans la lutte contre
+  les maladies infectieuses.
+\end{itemize}
+
+Conclusion Générale : L'analyse des données disponibles suggère que les
+indicateurs de développement peuvent avoir un impact complexe et
+multidimensionnel sur les taux de mortalité dus aux maladies
+infectieuses. Les dépenses en éducation et les taux d'inscription à
+l'enseignement supérieur peuvent améliorer la sensibilisation aux
+questions de santé et favoriser des comportements qui réduisent la
+transmission des maladies infectieuses. Cependant, les données ne
+montrent pas une corrélation systématique directe entre les dépenses en
+éducation et les taux de mortalité infectieuse, indiquant que la qualité
+de l'éducation et son contenu en matière de santé publique pourraient
+être des facteurs déterminants.
+
+De même, l'accès à l'eau et la qualité de l'eau semblent être des
+facteurs significatifs, comme en témoigne l'association entre l'accès
+limité à l'eau propre et des taux de mortalité plus élevés dus aux
+maladies infectieuses. Cela souligne l'importance de l'infrastructure
+sanitaire et des ressources en eau dans la prévention des maladies.
+
+En ce qui concerne la pollution atmosphérique, bien que nous puissions
+intuitivement supposer que la pollution contribue à une mauvaise santé
+et potentiellement à une incidence accrue de maladies infectieuses, les
+données ne fournissent pas une corrélation claire pour étayer cette
+hypothèse. Cela pourrait être dû à des facteurs atténuants, tels que
+l'efficacité des services de santé publics et les réponses aux crises de
+santé publique.
+
+Quant à la présence de personnel médical, il semble que les pays avec un
+plus grand nombre de personnel médical soient associés à une proportion
+plus faible de décès dus aux maladies infectieuses. Cela met en évidence
+le rôle crucial du personnel médical dans la prévention, le diagnostic
+et le traitement des maladies infectieuses.
+
+\end{document}

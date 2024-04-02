@@ -1,8 +1,17 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 Contributeurs : 
 - OUKKAL Yacine 
 - FARINA Alessandro 
 - BOUQUETY Andy 
-- MONACHON Vivan 
+- MONACHON Vivian 
+
+Problématique : Est-ce que certains indicateurs de développement favorisent la mortalité par maladies infectieuses ?
+
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -406,3 +415,12 @@ ggplot(ProportionMedics, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(
 ```
 
 - résultat : Les pays avec un plus grand nombre de personnel médical par rapport à leur population ont une proportion plus faible de décès dus aux maladies infectieuses, indiquant que l'accès à un personnel médical suffisant peut être un facteur important dans la lutte contre les maladies infectieuses.
+
+Conclusion Générale :
+L'analyse des données disponibles suggère que les indicateurs de développement peuvent avoir un impact complexe et multidimensionnel sur les taux de mortalité dus aux maladies infectieuses. Les dépenses en éducation et les taux d'inscription à l'enseignement supérieur peuvent améliorer la sensibilisation aux questions de santé et favoriser des comportements qui réduisent la transmission des maladies infectieuses. Cependant, les données ne montrent pas une corrélation systématique directe entre les dépenses en éducation et les taux de mortalité infectieuse, indiquant que la qualité de l'éducation et son contenu en matière de santé publique pourraient être des facteurs déterminants.
+
+De même, l'accès à l'eau et la qualité de l'eau semblent être des facteurs significatifs, comme en témoigne l'association entre l'accès limité à l'eau propre et des taux de mortalité plus élevés dus aux maladies infectieuses. Cela souligne l'importance de l'infrastructure sanitaire et des ressources en eau dans la prévention des maladies.
+
+En ce qui concerne la pollution atmosphérique, bien que nous puissions intuitivement supposer que la pollution contribue à une mauvaise santé et potentiellement à une incidence accrue de maladies infectieuses, les données ne fournissent pas une corrélation claire pour étayer cette hypothèse. Cela pourrait être dû à des facteurs atténuants, tels que l'efficacité des services de santé publics et les réponses aux crises de santé publique.
+
+Quant à la présence de personnel médical, il semble que les pays avec un plus grand nombre de personnel médical soient associés à une proportion plus faible de décès dus aux maladies infectieuses. Cela met en évidence le rôle crucial du personnel médical dans la prévention, le diagnostic et le traitement des maladies infectieuses.
