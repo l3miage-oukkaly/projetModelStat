@@ -404,3 +404,5 @@ Affichage du nombre de morts des pays concernés
 ggplot(ProportionMedics, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+- résultat : Les pays avec un plus grand nombre de personnel médical par rapport à leur population ont une proportion plus faible de décès dus aux maladies infectieuses, indiquant que l'accès à un personnel médical suffisant peut être un facteur important dans la lutte contre les maladies infectieuses.
