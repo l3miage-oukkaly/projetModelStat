@@ -277,8 +277,8 @@ Polluants_minmax$Country <- factor(Polluants_minmax$Country, levels = Polluants_
 ```
 
 ```{r}
-ggplot(Polluants_minmax, aes(x= Country, y= Polluants)) + geom_bar(stat = "identity") + labs(title="Somme des gaz toxiques polluants émis de 1990 à 2010 (en t)", x="Pays", y="Quantité (en t)") + scale_y_log10(breaks = 10^(0:9), labels = comma_format()) + scale_fill_discrete(name = "Country") +  # Customizing legend title 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotating x-axis labels for better readability
+ggplot(Polluants_minmax, aes(x= Country, y= Polluants)) + geom_bar(stat = "identity") + labs(title="Somme des gaz toxiques polluants émis de 1990 à 2010 (en t)", x="Pays", y="Quantité (en t)") + scale_y_log10(breaks = 10^(0:9), labels = comma_format()) + scale_fill_discrete(name = "Country") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 Fusion avec la table des morts afin de filtrer les données
@@ -289,8 +289,8 @@ ProportionPolluants <- ProportionPolluants %>% group_by(Country) %>% summarize(`
 
 Affichage du nombre de morts des pays concernés
 ```{r}
-ggplot(ProportionPolluants, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") +  # Customizing legend title 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotating x-axis labels for better readability
+ggplot(ProportionPolluants, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 Analyse : Clean Water access
@@ -310,8 +310,8 @@ cleanWater_minmax$Country <- factor(cleanWater_minmax$Country, levels = cleanWat
 ```
 
 ```{r}
-ggplot(cleanWater_minmax, aes(x= Country, y=`Proportion of population unable to access clean water (%)`)) + geom_bar(stat = "identity") + labs(title="Proportion de la population n'ayant pas accès à l'eau courante", x="Pays", y="Proportion (en %)") + scale_fill_discrete(name = "Country") +  # Customizing legend title 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotating x-axis labels for better readability
+ggplot(cleanWater_minmax, aes(x= Country, y=`Proportion of population unable to access clean water (%)`)) + geom_bar(stat = "identity") + labs(title="Proportion de la population n'ayant pas accès à l'eau courante", x="Pays", y="Proportion (en %)") + scale_fill_discrete(name = "Country") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 Fusion avec la table des morts afin de filtrer les données
@@ -322,6 +322,6 @@ ProportionCleanWater <- ProportionCleanWater %>% group_by(Country) %>% summarize
 
 Affichage du nombre de morts des pays concernés
 ```{r}
-ggplot(ProportionCleanWater, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") +  # Customizing legend title 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotating x-axis labels for better readability
+ggplot(ProportionCleanWater, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)
 ```
