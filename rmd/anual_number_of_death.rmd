@@ -159,6 +159,8 @@ governmentEducationExpenditure_valmax <- governmentEducationExpenditure_mean %>%
 
 governmentEducationExpenditure_valmin <- governmentEducationExpenditure_mean %>% slice_min(`Mean_GPD_spent`, n = 5)
 
+governmentEducationExpenditure_minmax <- rbind(governmentEducationExpenditure_valmin, governmentEducationExpenditure_valmax)
+
 print(governmentEducationExpenditure_valmin$Country)
 
 print(governmentEducationExpenditure_valmax$Country)
@@ -166,11 +168,8 @@ print(governmentEducationExpenditure_valmax$Country)
 On selectionne au sein de la table principale les données de ces
 pays 
 ```{r}
-pays_min_gov_exp <- filter(governmentEducationExpenditure, Country %in% c("Monaco", "Sudan", "Dominican Republic" , "Central African Republic","Cambodia"))
 
-pays_max_gov_exp <- filter(governmentEducationExpenditure, Country %in% c("Cuba","Denmark",  "Djibouti", "Lesotho","Norway"))
-
-pays_combinés_gov_exp <- filter(governmentEducationExpenditure, Country %in% c("Cuba","Denmark",  "Djibouti", "Lesotho","Norway","Monaco", "Sudan", "Dominican Republic" , "Central African Republic","Cambodia"))
+pays_combinés_gov_exp <- filter(governmentEducationExpenditure, Country %in% governmentEducationExpenditure_minmax$Country)
 
 pays_h1_death <- select(annualdeath,Country,Year,`Cardiovascular diseases`) %>% filter(Country %in% c("Cuba","Denmark",  "Djibouti", "Lesotho","Norway","Monaco", "Sudan", "Dominican Republic" , "Central African Republic","Cambodia"))  
 
