@@ -148,6 +148,10 @@ Nous testerons 6 hypothèses: -Il existe une corrélation négative entre les d�
 
 -Les pays avec un retrait d'eau par habitant plus élevé connaissent une proportion plus faible de décès dus aux maladies infectieuses. Cela peut suggérer que des ressources en eau plus abondantes et plus accessibles contribuent à une meilleure hygiène et à des conditions sanitaires qui réduisent la transmission des maladies infectieuses.
 
+-Il existe une corrélation positive entre la proportion de la population n'ayant pas accès à l'eau courante et la proportion de décès dus aux maladies infectieuses. Cela signifie que les pays où une plus grande partie de la population manque d'accès à l'eau courante ont tendance à avoir des taux plus élevés de mortalité liée aux maladies infectieuses
+
+-Il existe une relation entre la quantité de gaz toxiques polluants émis dans un pays et la proportion de décès dus à des maladies infectieuses. Les pays qui émettent une grande quantité de polluants atmosphériques pourraient avoir une incidence plus élevée de certaines maladies infectieuses, en raison de l'affaiblissement de la santé respiratoire de la population et de la création d'environnements propices à la propagation de maladies infectieuses.
+
 a) Ce programme nous permet de trouver les pays avec les pourcentages les plus et moins élevés en moyenne sur 20 ans dans la table governmentEducationExpenditure
 ```{r}
 governmentEducationExpenditure_mean <- governmentEducationExpenditure %>%
@@ -319,7 +323,7 @@ Affichage du nombre de morts des pays concernés
 ggplot(ProportionCleanWater, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-
+Il apparaît que les pays avec un accès limité à l'eau courante ont tendance à présenter des taux plus élevés de mortalité due aux maladies infectieuses. Ceci est conforme à l'idée que l'accès à l'eau propre est un facteur important dans la prévention et le contrôle des maladies infectieuse
 
 Analyse : Air Pollution
 Trouver les 10 pays qui polluent le plus et les 10 pays qui polluent le moins
@@ -353,6 +357,7 @@ Affichage du nombre de morts des pays concernés
 ggplot(ProportionPolluants, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+Il n'est pas évident qu'il existe une corrélation directe et cohérente entre les émissions totales de gaz toxiques et la proportion de décès dus à des maladies infectieuses pour les pays représentés. Par exemple, bien que la Chine et les États-Unis aient des émissions très élevées, la proportion de décès dus aux maladies infectieuses n'est pas la plus haute par rapport à d'autres pays avec des émissions plus faibles
 
 Analyse : Medics Presence
 Formatage des données
