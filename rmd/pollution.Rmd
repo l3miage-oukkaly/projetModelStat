@@ -12,15 +12,50 @@ for (col in names(airPollution)) {
 Renommage des colonnes pour la compréhensivité
 ```{r}
 colnames(airPollution) <- c("Nitrogen oxide (NOx)", "Sulphur dioxide (SO₂)", "Carbon monoxide (CO)", "Organic carbon (OC)", "NMVOCs", "Black carbon (BC)", "Ammonia (NH₃)", "s1", "s2", "s3", "s3", "s4", "s5", "s6", "Country", "Year")
+
+airPollution <- airPollution[, c("Country", "Year", names(airPollution)[-which(names(airPollution) %in% c("Country", "Year"))])]
 ```
 
 Retrait des lignes & colonnes inutiles
 ```{r}
-airPollution <- select(airPollution, -s1, -s2, -s3, -s4, -s5, -s6)
-airPollution <- subset(airPollution, !(Country %in% c("Asia", "Europe", "Africa", "World", "High-income countries", "Upper-middle-income countries", "North America", "Lower-middle-income countries", "South America", "Oceania", "Low-income countries")))
+airPollution <- select(airPollution, -s1, -s2, -s3, -s4, -s5, -s6, -s3.1)
+
+airPollution <- subset(airPollution, !(Country %in% c("Asia", "Europe", "Africa", "World", "High-income countries", "Upper-middle-income countries", "North America", "Lower-middle-income countries", "South America", "Oceania", "Low-income countries", "Gibraltar", "Sint Maarten (Dutch part)", "Cayman Islands")))
+
+Polluants <- rowSums(airPollution[, -(1:2)])
+airPollution$Polluants <- Polluants
+airPollution <- airPollution[, c("Country", "Year", "Polluants")]
 ```
 
 Filtrage des années qui nous intéressent
 ```{r}
-airPollution <- airPollution %>% filter(Year<2011) %>%filter(Year>1989)
+airPollution <- airPollution %>% filter(Year<2011) %>%filter(Year>1989) %>% filter(Polluants > 10000)
+```
+
+
+```{r}
+Polluants_mean <- airPollution %>%
+  group_by(Country) %>%
+  summarise(Polluants = sum(`Polluants`))
+
+Polluants_max <- Polluants_mean %>% top_n(10, wt = `Polluants`)
+
+Polluants_min <- Polluants_mean %>% slice_min(`Polluants`, n = 10)
+
+Polluants_minmax <- rbind(Polluants_min, Polluants_max)
+
+Polluants_minmax$Country <- factor(Polluants_minmax$Country, levels = Polluants_minmax$Country[order(Polluants_minmax$Polluants)])
+```
+
+```{r}
+ggplot(Polluants_minmax, aes(x= Country, y= Polluants)) + geom_bar(stat = "identity") + labs(title="Somme des gaz toxiques polluants émis de 1990 à 2010 (en t)", x="Pays", y="Quantité (en t)") + scale_y_log10(breaks = 10^(0:9), labels = comma_format()) + scale_fill_discrete(name = "Country") +  # Customizing legend title 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotating x-axis labels for better readability
+```
+
+```{r}
+ProportionPolluants <- merge(Polluants_minmax, annualdeath[c("Country", "Infectious diseases prop (%)")], by = "Country")
+ProportionPolluants <- ProportionPolluants %>% group_by(Country) %>% summarize(`Infectious diseases %` = mean(`Infectious diseases prop (%)`), `Polluants` = mean(`Polluants`))
+
+ggplot(ProportionPolluants, aes(x= Country, y=`Infectious diseases %`)) + geom_bar(stat = "identity") + labs(title="Proportion de personnes mortes de maladies infectieuses", x="Pays", y="Quantité (en %)") + scale_y_continuous(labels = comma_format()) + scale_fill_discrete(name = "Country") +  # Customizing legend title 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotating x-axis labels for better readability
 ```
