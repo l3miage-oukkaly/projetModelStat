@@ -1,3 +1,13 @@
+Lecture des fichiers et installation des librairies nécesssaires
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(scales)
+```
+
 Import du dataset & tyding des données
 ```{r}
 airPollution <- read.csv("../Dataset/air-pollution.csv", header = TRUE)
@@ -16,7 +26,7 @@ colnames(airPollution) <- c("Nitrogen oxide (NOx)", "Sulphur dioxide (SO₂)", "
 airPollution <- airPollution[, c("Country", "Year", names(airPollution)[-which(names(airPollution) %in% c("Country", "Year"))])]
 ```
 
-Retrait des lignes & colonnes inutiles
+Retrait des lignes & colonnes inutiles & des doublons
 ```{r}
 airPollution <- select(airPollution, -s1, -s2, -s3, -s4, -s5, -s6, -s3.1)
 
